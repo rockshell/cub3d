@@ -14,7 +14,7 @@ LIBMLX		:=	$(LIBMLXDIR)/build/libmlx42.a
 LIBS		:=	$(LIBFT) $(LIBMLX) -ldl -lglfw -lm # -pthread
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	main.c get_next_line.c
+SRCS 		:=	main.c get_next_line.c parsing.c ft_isspace.c cleanup.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 OBJS		:=	${SRCS:.c=.o}
@@ -25,9 +25,9 @@ all: $(LIBMLX) $(NAME)
 libmlx:
 	@cmake $(LIBMLXDIR) -B $(LIBMLXDIR)/build && make -C $(LIBMLXDIR)/build -j4
 
-$(LIBFT):
-	@echo "Building libft..."
-	@$(MAKE) -C $(LIBFT_DIR)
+# $(LIBFT):
+# 	@echo "Building libft..."
+# 	@$(MAKE) -C $(LIBFT_DIR)
 
 %.o: %.c
 	@echo "Compiling $< to $@..."
@@ -41,7 +41,7 @@ $(NAME): $(OBJS) $(LIBS)
 clean:
 	@echo "Cleaning object files..."
 	@rm -f $(OBJS)
-	@rm -rf $(LIBFT_DIR)
+#	 @rm -rf $(LIBFT)
 	@rm -rf $(LIBMLX)/build
 
 fclean: clean

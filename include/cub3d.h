@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 03:16:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:06:10 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "../include/libft.h"
+#include "libft.h"
 #include "../MLX42/include/MLX42/MLX42.h"
 
 #define WIN_WIDTH	640
@@ -34,15 +34,32 @@ enum	e_side
 	EA
 };
 
+typedef struct	s_rgb
+{
+	unsigned int	r;
+	unsigned int	g;
+	unsigned int	b;
+}	t_rgb;
+
 
 typedef struct	s_game
 {
 	char	*tex_path_nsew[4];
 	
+	t_rgb	floor_color;
+	t_rgb	ceil_color;
+	
 }	t_game;
 
 
+
+
 char	*get_next_line(int fd);
+
+int		get_map(int argc, char *filepath, t_game *game);
+
+void	free_game(t_game *game);
+void	free_exit(char *line, t_game *game, int fd);
 
 
 #endif

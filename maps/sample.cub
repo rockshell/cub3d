@@ -1,12 +1,12 @@
 SO      ./assets/colorstone.xpm
              WE      ./assets/redbrick.xpm    
 
-        EA                  ./assets/purplestone.xpm     
     NO      ./assets/bluestone.xpm    
+        EA                  ./assets/purplestone.xpm     
 
 
 
-F        112,112,112
+F        112,112,112,11
 C        56,56,56
 
 
