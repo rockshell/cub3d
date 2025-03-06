@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 03:16:47 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/06 13:44:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,26 @@ void	init_struct(t_game *game)
 	return ;
 }
 
+void	free_game(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		free(game->tex_path_nsew[i]);
+		game->tex_path_nsew[i] = NULL;
+		i++;
+	}
+	free(game);
+	game = NULL;
+}
+
 void	free_exit(char *line, t_game *game, int fd)
 {
 	free(line);
-	free(game);
+	line = NULL;
+	free_game(game);
 	close(fd);
 	exit(EXIT_FAILURE);	
 }
@@ -39,17 +55,18 @@ char *get_path(char *line, t_game *game, int fd)
 	int		fd_test;
 	
 	path = line + 2;
-	// both absolute and relative are valid. need to check the existence of file as well
+	// both absolute and relative are valid?
 	while (ft_isspace(*path))
 		path++;
 	// MAYBE NOT THE BEST WAY HERE...
-	path[ft_strlen(path) - 1] = '\0';
+	// path[ft_strlen(path) - 1] = '\0';
 	if (!ft_strendswith(path, ".xpm"))
 	{
 		printf("Error\nInvalid texture format");
 		free_exit(line, game, fd);
 	}
 
+	// Check the existence of file
 	fd_test = open(path, O_RDONLY);
 	if (fd_test < 0)
 	{
@@ -58,7 +75,6 @@ char *get_path(char *line, t_game *game, int fd)
 		free_exit(line, game, fd);
 	}
 	close(fd_test);
-		// printf("%s\n", path);
 
 	return (path);
 }
@@ -71,8 +87,6 @@ int	get_map(int argc, char *filepath, t_game *game)
 	{
 		errno = EINVAL;
 		perror("Error\nProgram accepts only 1 argument");
-		
-		// free game;
 		return (-1);
 	}
 	
@@ -118,8 +132,11 @@ int	get_map(int argc, char *filepath, t_game *game)
 			continue ;
 		}
 
+
+		// For sides
+		
 		char *tmp_line = line;
-		line = ft_strtrim(tmp_line, " \t");
+		line = ft_strtrim(tmp_line, " \t\n");
 		free(tmp_line);
 
 		if (ft_isdigit(*line))
@@ -128,21 +145,18 @@ int	get_map(int argc, char *filepath, t_game *game)
 			break ;
 		}
 		
-		 // For sides
 		if (ft_strncmp(line, "NO", 2) == 0)
-			game->tex_path_nsew[0] = get_path(line, game, fd);
+			game->tex_path_nsew[0] = ft_strdup(get_path(line, game, fd));
 		else if (ft_strncmp(line, "SO", 2) == 0)
-			game->tex_path_nsew[1] = get_path(line, game, fd);
+			game->tex_path_nsew[1] = ft_strdup(get_path(line, game, fd));
 		else if (ft_strncmp(line, "EA", 2) == 0)
-			game->tex_path_nsew[2] = get_path(line, game, fd);
+			game->tex_path_nsew[2] = ft_strdup(get_path(line, game, fd));
 		else if (ft_strncmp(line, "WE", 2) == 0)
-			game->tex_path_nsew[3] = get_path(line, game, fd);
+			game->tex_path_nsew[3] = ft_strdup(get_path(line, game, fd));
 		// else
 		// {
-		// 	free(line);
-		// 	continue ;
-		// 	// printf("Error\nInvalid map element");
-		// 	// free_exit(line, game, fd);
+		// 		printf("Error\nInvalid map element");
+		// 		free_exit(line, game, fd);
 		// }
 			
 		// printf("%s", line);
@@ -171,7 +185,7 @@ int	main(int argc, char *argv[])
 	// Check args, parse map
 	if (get_map(argc, argv[1], game) < 0)
 	{
-		free(game);
+		free_game(game);
 		return (1);
 	}
 
@@ -182,6 +196,6 @@ int	main(int argc, char *argv[])
 	// Initialize game window
 	// Set up game loop
 	// Handle cleanup
-	free(game);
+	free_game(game);
 	return (EXIT_SUCCESS);
 }
