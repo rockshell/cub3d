@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 15:50:42 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 16:32:23 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 void	init_struct(t_game *game)
 {
-	(void) game;
+	game->ceil_color.r = 0;
+	game->ceil_color.g = 0;
+	game->ceil_color.b = 0;
+
 	return ;
 }
 
@@ -32,7 +35,7 @@ int	main(int argc, char *argv[])
 	if (get_map(argc, argv[1], game) < 0)
 	{
 		free_game(game);
-		return (1);
+		return (EXIT_FAILURE);
 	}
 
 

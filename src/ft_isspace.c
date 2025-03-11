@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:48:58 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 15:49:03 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 17:36:31 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_isspace(char c)
 {
-	if (c == ' ' || c == '\t')
+	if (c == ' ' || c == '\t' || c == '\n')
 		return (1);
 	return (0);
 }

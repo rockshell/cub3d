@@ -6,11 +6,38 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 16:19:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:34:16 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+int	cube_atoi(const char *nptr)
+{
+	long int		num;
+	unsigned int	i;
+
+	num = 0;
+	i = 0;
+	while ((nptr[i] >= 9 && nptr[i] <= 13) || nptr[i] == 32)
+		i++;
+	if (nptr[i] == '-')
+		return (-1);
+	if (nptr[i] == '+')
+		i++;
+	while (nptr[i] >= 48 && nptr[i] <= 57)
+	{
+		num = (num + (nptr[i] - 48)) * 10;
+		if (num > INT_MAX)
+			return (-1);
+		i++;
+	}
+	num /= 10;
+	if (nptr[i] != '\0' || num > 255)
+		return (-1);
+	return ((int) num);
+}
 
 char *get_path(char *line, t_game *game, int fd)
 {
@@ -21,14 +48,11 @@ char *get_path(char *line, t_game *game, int fd)
 	// both absolute and relative are valid?
 	while (ft_isspace(*path))
 		path++;
-	// MAYBE NOT THE BEST WAY HERE...
-	// path[ft_strlen(path) - 1] = '\0';
 	if (!ft_strendswith(path, ".xpm"))
 	{
 		printf("Error\nInvalid texture format");
 		free_exit(line, game, fd);
 	}
-
 	// Check the existence of file
 	fd_test = open(path, O_RDONLY);
 	if (fd_test < 0)
@@ -38,8 +62,74 @@ char *get_path(char *line, t_game *game, int fd)
 		free_exit(line, game, fd);
 	}
 	close(fd_test);
-
 	return (path);
+}
+
+void	validate_color_format(char *rgb_seq, char *line, t_game *game, int fd)
+{
+	int	i;
+	int	comma_count;
+
+	i = 0;
+	comma_count = 0;
+	while (rgb_seq[i])
+	{
+		if ((!ft_isdigit(rgb_seq[i]) && rgb_seq[i] != ',') || rgb_seq[0] == ','
+			|| (rgb_seq[i] == ',' && !rgb_seq[i + 1])
+			|| (rgb_seq[i] == ',' && rgb_seq[i + 1] == ','))
+		{
+			printf("Error\nInvalid map format\n");
+			free_exit(line, game, fd);
+		}
+		if (rgb_seq[i] == ',')
+			comma_count++;
+		i++;
+	}
+	if (comma_count != 2)
+	{
+		printf("Error\nInvalid map format\n");
+		free_exit(line, game, fd);
+	}	
+}
+
+t_rgb	parse_color(char *rgb_seq, char *line, t_game *game, int fd)
+{
+	t_rgb	color;
+	int		sub_len;
+	int		sub_count;
+	int		color_value;
+	char	*sub_seq;
+
+	sub_len = 0;
+	sub_count = -1;
+	sub_seq = malloc(sizeof(char) * 4);
+	while (*rgb_seq)
+	{
+		while (ft_isdigit(*rgb_seq))
+		{
+			sub_seq[sub_len] = *rgb_seq;
+			sub_len++;
+			rgb_seq++;
+		}
+		sub_count++;
+		sub_seq[sub_len] = '\0';
+		sub_len = 0;
+		color_value = cube_atoi(sub_seq);
+		if (color_value < 0)
+		{
+			printf("Error\nInvalid color value\n");
+			free_exit(line, game, fd);
+		}
+		if (sub_count == 0)
+			color.r = color_value;
+		else if (sub_count == 1)
+			color.g = color_value;
+		else if (sub_count == 2)
+			color.b = color_value;
+		rgb_seq++;
+	}
+	free(sub_seq);
+	return (color);
 }
 
 t_rgb	get_color(char *line, t_game *game, int fd)
@@ -47,59 +137,18 @@ t_rgb	get_color(char *line, t_game *game, int fd)
 	t_rgb	color;
 	char	*rgb_seq;
 
-	/* Need checks for errors and exits */
-	(void) game;
-	(void) fd;
-	
 	rgb_seq = line + 1;
 	while (ft_isspace(*rgb_seq))
 		rgb_seq++;
-
-	int sub_len = 0;
-	int sub_count = 0;
-	char *sub_seq;
-
-	sub_seq = rgb_seq;
-	while (*rgb_seq)
-	{
-		
-		if (*rgb_seq == ',')
-		{
-			if (sub_count > 2)
-			{
-				printf("Error\nToo many colors in sequence");
-				free_exit(line, game, fd);
-			}
-			sub_seq[sub_len] = '\0';
-			sub_len = 0;
-
-			/* Check atoi output */
-			if (sub_count == 0)
-				color.r = ft_atoi(sub_seq);
-			else if (sub_count == 1)
-				color.g = ft_atoi(sub_seq);
-			else if (sub_count == 2)
-				color.b = ft_atoi(sub_seq);  // FIX BLUE! 
-				
-			sub_seq = rgb_seq + 1;
-			sub_count++;
-		}
-		sub_len++;
-		rgb_seq++;
-	}
-	if (sub_count == 2)
-		color.b = ft_atoi(sub_seq);  // FIX BLUE! 
-	
-	
+	validate_color_format(rgb_seq, line, game, fd);
+	color = parse_color(rgb_seq, line, game, fd);
 
 	printf("Red Color: %u\n", color.r);
 	printf("Green Color: %u\n", color.g);
 	printf("Blue Color: %u\n", color.b);
 	return (color);
-	 
 }
-
-
+		
 int	get_map(int argc, char *filepath, t_game *game)
 {
 	// Check argument count (exactly 2 arguments: executable and map file)
@@ -127,37 +176,34 @@ int	get_map(int argc, char *filepath, t_game *game)
 		perror("Error\nCould not open file");
 		return (-1);
 	}
-	
+
 	char	*line; 
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-			
-		/*
-		◦ Except for the map content, each type of element can be separated by one or
-		more empty line(s).
-
-		◦ Except for the map content which always has to be the last, each type of
-		element can be set in any order in the file.
-
-		◦ Except for the map, each type of information from an element can be separated
-		by one or more space(s).
-
-		*/
 		if (*line == '\n')
 		{
 			free(line);
 			continue ;
 		}
 
-
-		// For sides
-		
+		// For sides		
 		char *tmp_line = line;
 		line = ft_strtrim(tmp_line, " \t\n");
 		free(tmp_line);
+		tmp_line = NULL;
+		// Maybe save trimmed map to global struct like mvenmo does?
+
+		/* CHECK ALL FIRST CHAR AFTER TRIMMING IS SWNEFC01 
+		 - THAT WOULD MEAN HAVE MORE OR LESS REQUIRED FORMAT*/
+
+		if (!ft_strchr("NSWEFC01", line[0])) // && and no more than 6 unique chars!
+		{
+			printf("Error\nInvalid map format\n");
+			free_exit(line, game, fd);
+		}
 
 		if (ft_isdigit(*line))
 		{
@@ -173,29 +219,22 @@ int	get_map(int argc, char *filepath, t_game *game)
 			game->tex_path_nsew[2] = ft_strdup(get_path(line, game, fd));
 		else if (ft_strncmp(line, "WE", 2) == 0)
 			game->tex_path_nsew[3] = ft_strdup(get_path(line, game, fd));
-		// else
-		// {
-		// 		printf("Error\nInvalid map element");
-		// 		free_exit(line, game, fd);
-		// }
-			
-		// printf("%s", line);
-
 
 		// For Floor and Ceiling
-
 		if (ft_strncmp(line, "F", 1) == 0)
 			game->floor_color = get_color(line, game, fd);
 		else if (ft_strncmp(line, "C", 1) == 0)
 			game->ceil_color = get_color(line, game, fd);
+		
+		// For 01s
 		
 		
 		free(line);
 		
 	}
 	
-	for (int i = 0; i < 4; i++)
-		printf("%s\n",game->tex_path_nsew[i]);
+	// for (int i = 0; i < 4; i++)
+	// 	printf("%s\n",game->tex_path_nsew[i]);
 
 	close(fd);
 

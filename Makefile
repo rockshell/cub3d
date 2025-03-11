@@ -1,6 +1,6 @@
 NAME		:=	cub3d
 
-CFLAGS		:=	-Wextra -Wall -Werror -g -O3 -Ofast -flto # check what these flags do
+CFLAGS		:=	-Wextra -Wall -Werror -g #-O3 -Ofast -flto # check what these flags do
 LDFLAGS		:=	-lreadline
 
 HEADERS		:=	-I ./include -I $(LIBMLX)/include
