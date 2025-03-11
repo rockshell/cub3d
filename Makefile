@@ -14,7 +14,8 @@ LIBMLX		:=	$(LIBMLXDIR)/build/libmlx42.a
 LIBS		:=	$(LIBFT) $(LIBMLX) -ldl -lglfw -lm # -pthread
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	main.c get_next_line.c parsing.c ft_isspace.c cleanup.c
+SRCS 		:=	main.c get_next_line.c parsing.c ft_isspace.c cleanup.c \
+				utils.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 OBJS		:=	${SRCS:.c=.o}

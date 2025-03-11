@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 16:06:10 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/11 19:40:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ typedef struct	s_game
 char	*get_next_line(int fd);
 
 int		get_map(int argc, char *filepath, t_game *game);
+
+/* utils.c */ 
+int		cube_atoi(const char *nptr);
+
 
 void	free_game(t_game *game);
 void	free_exit(char *line, t_game *game, int fd);
