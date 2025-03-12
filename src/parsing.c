@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/11 19:39:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/12 20:54:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ t_rgb	parse_color(char *rgb_seq, char *line, t_game *game, int fd)
 		if (color_value < 0)
 		{
 			printf("Error\nInvalid color value\n");
+			free(sub_seq);
 			free_exit(line, game, fd);
 		}
 		if (sub_count == 0)
@@ -122,6 +123,9 @@ t_rgb	get_color(char *line, t_game *game, int fd)
 	printf("Blue Color: %u\n", color.b);
 	return (color);
 }
+
+void	parse_map(void)
+{}
 		
 int	get_map(int argc, char *filepath, t_game *game)
 {
@@ -151,7 +155,13 @@ int	get_map(int argc, char *filepath, t_game *game)
 		return (-1);
 	}
 
+
+	// First check trimmed map and get elements data
+	
 	char	*line; 
+	int		unique = 0;
+	int		height = 0;
+
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -173,40 +183,110 @@ int	get_map(int argc, char *filepath, t_game *game)
 		/* CHECK ALL FIRST CHAR AFTER TRIMMING IS SWNEFC01 
 		 - THAT WOULD MEAN HAVE MORE OR LESS REQUIRED FORMAT*/
 
-		if (!ft_strchr("NSWEFC01", line[0])) // && and no more than 6 unique chars!
+		if (!ft_strchr("NSWEFC1", line[0])) // && and no more than 6 UNIQUE chars!
 		{
 			printf("Error\nInvalid map format\n");
 			free_exit(line, game, fd);
 		}
 
-		if (ft_isdigit(*line))
-		{
-			free(line);
-			break ;
-		}
-		
+		// if (ft_isdigit(*line))
+		// {
+		// 	free(line);
+		// 	break ;
+		// }
 		if (ft_strncmp(line, "NO", 2) == 0)
+		{
 			game->tex_path_nsew[0] = ft_strdup(get_path(line, game, fd));
+			if (!game->tex_path_nsew[0])
+			{
+				printf("Error\nAllocation failed\n");
+				free_exit(line, game, fd);
+			}
+			unique++;
+		}
 		else if (ft_strncmp(line, "SO", 2) == 0)
+		{
 			game->tex_path_nsew[1] = ft_strdup(get_path(line, game, fd));
+			if (!game->tex_path_nsew[1])
+			{
+				printf("Error\nAllocation failed\n");
+				free_exit(line, game, fd);
+			}
+			unique++;
+		}
 		else if (ft_strncmp(line, "EA", 2) == 0)
+		{
 			game->tex_path_nsew[2] = ft_strdup(get_path(line, game, fd));
+			if (!game->tex_path_nsew[2])
+			{
+				printf("Error\nAllocation failed\n");
+				free_exit(line, game, fd);
+			}
+			unique++;
+		}
 		else if (ft_strncmp(line, "WE", 2) == 0)
+		{
 			game->tex_path_nsew[3] = ft_strdup(get_path(line, game, fd));
+			if (!game->tex_path_nsew[3])
+			{
+				printf("Error\nAllocation failed\n");
+				free_exit(line, game, fd);
+			}
+			unique++;
+		}
 
 		// For Floor and Ceiling
 		if (ft_strncmp(line, "F", 1) == 0)
+		{
 			game->floor_color = get_color(line, game, fd);
+			unique++;
+		}
 		else if (ft_strncmp(line, "C", 1) == 0)
+		{
 			game->ceil_color = get_color(line, game, fd);
+			unique++;
+		}
 		
 		// For 01s
-		
-		
-		free(line);
-		
+		if (ft_strncmp(line, "0", 1) == 0)
+		{
+			printf("Error\nInvalid map format: open wall\n");
+			free_exit(line, game, fd);
+		}
+		else if (ft_strncmp(line, "1", 1) == 0 && unique == 6)
+			height++;
+		free(line);	
 	}
+	if (height)
+		unique++;
+		
+	printf("height: %d\n", height);
+	printf("height: %d\n", unique);
+
+	if (unique != 7)
+	{
+		perror("Error\nInvalid map format\n");
+		return (-1);
+	}
+
+	// now we have height, we can allocate map rows
+	game->map = malloc(sizeof(char *) * height + 1);
 	
+	
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		if (*line == '\n')
+		{
+			free(line);
+			continue ;
+		}
+		printf("%s", line);
+		
+		free(line);	
+	}
 	// for (int i = 0; i < 4; i++)
 	// 	printf("%s\n",game->tex_path_nsew[i]);
 

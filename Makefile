@@ -8,7 +8,7 @@ HEADERS		:=	-I ./include -I $(LIBMLX)/include
 LIBFT_DIR 	:=	./Libft
 LIBFT		:=	./lib/libft.a
 
-LIBMLXDIR	:=	./MLX42/
+LIBMLXDIR	:=	./MLX42
 LIBMLX		:=	$(LIBMLXDIR)/build/libmlx42.a
 
 LIBS		:=	$(LIBFT) $(LIBMLX) -ldl -lglfw -lm # -pthread
