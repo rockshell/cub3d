@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/12 20:53:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 00:11:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct	s_game
 	t_rgb	floor_color;
 	t_rgb	ceil_color;
 
+	int		map_width;
+	int		map_height;
 	char	**map;
 	
 }	t_game;

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/06 15:50:52 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 01:35:32 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,45 @@ void	free_game(t_game *game)
 {
 	int	i;
 
-	i = 0;
-	while (i < 4)
+	if (!game)
+		return ;
+	if (game->tex_path_nsew)
 	{
-		free(game->tex_path_nsew[i]);
-		game->tex_path_nsew[i] = NULL;
-		i++;
+		i = 0;
+		while (i < 4)
+		{
+			free(game->tex_path_nsew[i]);
+			game->tex_path_nsew[i] = NULL;
+			i++;
+		}
+	}
+	if (game->map)
+	{
+		i = 0;
+		while (i < game->map_height)
+		{
+			if (game->map[i])
+			{
+				free(game->map[i]);
+				game->map[i] = NULL;
+			}
+			i++;
+		}
+		free(game->map);
+		game->map = NULL;
 	}
 	free(game);
-	game = NULL;
 }
 
 void	free_exit(char *line, t_game *game, int fd)
 {
-	free(line);
-	line = NULL;
+	if (line)
+	{
+		free(line);
+		line = NULL;
+	}
 	free_game(game);
-	close(fd);
+	if (fd >= 0)
+		close(fd);
 	exit(EXIT_FAILURE);	
 }
