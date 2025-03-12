@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/13 01:39:59 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/13 02:00:26 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -314,6 +314,7 @@ int	get_map(int argc, char *filepath, t_game *game)
 		{
 			// printf("%s", line);
 			// checks
+			// bool digit = false;
 			int j = 0;
 			while (line[j])
 			{
@@ -322,12 +323,18 @@ int	get_map(int argc, char *filepath, t_game *game)
 					printf("Error\nInvalid map format\n");
 					free_exit(line, game, fd);
 				}
+				// what to do with trailing spaces if there are? 
+				// checks for consecutive digits' sequence here?
+				// if (ft_isdigit(line[j]))
+				// 	digit = true;
+				// else if (ft_isspace(line[j]) && digit)
+					
 				j++;
 			}
-			// what to do with trailing spaces if there are? 
+			
+			
 			// get width
 			int line_width = ft_strlen(line);
-			// printf("\n%d\n", line_width);
 			game->map[i] = ft_strdup(line);
 			i++;
 			if (max_width <= line_width)
@@ -343,8 +350,8 @@ int	get_map(int argc, char *filepath, t_game *game)
 	game->map_width = max_width;
 
 
-	// printf("map width:	%d\n", game->map_width);
-	// printf("map height:	%d\n", game->map_height);
+	printf("map width:	%d\n", game->map_width);
+	printf("map height:	%d\n", game->map_height);
 
 	
 	for (int i = 0; i < game->map_height; i++)
