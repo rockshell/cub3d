@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/13 00:11:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 00:04:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,10 @@ int		cube_atoi(const char *nptr);
 
 void	free_game(t_game *game);
 void	free_exit(char *line, t_game *game, int fd);
+
+//error.c
+int		check_args_get_fd(int argc, char *filepath);
+void	error_exit(char *line, t_game *game, int fd, int error_code);
 
 
 #endif

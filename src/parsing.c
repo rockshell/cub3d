@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/13 02:00:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 00:38:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,14 @@ char *get_path(char *line, t_game *game, int fd)
 	while (ft_isspace(*path))
 		path++;
 	if (!ft_strendswith(path, ".xpm"))
-	{
-		printf("Error\nInvalid texture format");
-		free_exit(line, game, fd);
-	}
+		error_exit(line, game, fd, 1);
+
 	// Check the existence of file
 	fd_test = open(path, O_RDONLY);
 	if (fd_test < 0)
 	{
-		printf("Error\nInvalid file path");
 		close(fd_test);
-		free_exit(line, game, fd);
+		error_exit(line, game, fd, 8);
 	}
 	close(fd_test);
 	return (path);
@@ -51,19 +48,14 @@ void	validate_color_format(char *rgb_seq, char *line, t_game *game, int fd)
 		if ((!ft_isdigit(rgb_seq[i]) && rgb_seq[i] != ',') || rgb_seq[0] == ','
 			|| (rgb_seq[i] == ',' && !rgb_seq[i + 1])
 			|| (rgb_seq[i] == ',' && rgb_seq[i + 1] == ','))
-		{
-			printf("Error\nInvalid map format\n");
-			free_exit(line, game, fd);
-		}
+				error_exit(line, game, fd, 2);
+
 		if (rgb_seq[i] == ',')
 			comma_count++;
 		i++;
 	}
 	if (comma_count != 2)
-	{
-		printf("Error\nInvalid map format\n");
-		free_exit(line, game, fd);
-	}	
+		error_exit(line, game, fd, 2);
 }
 
 t_rgb	parse_color(char *rgb_seq, char *line, t_game *game, int fd)
@@ -91,9 +83,8 @@ t_rgb	parse_color(char *rgb_seq, char *line, t_game *game, int fd)
 		color_value = cube_atoi(sub_seq);
 		if (color_value < 0)
 		{
-			printf("Error\nInvalid color value\n");
 			free(sub_seq);
-			free_exit(line, game, fd);
+			error_exit(line, game, fd, 7);
 		}
 		if (sub_count == 0)
 			color.r = color_value;
@@ -129,39 +120,16 @@ void	parse_map(void)
 		
 int	get_map(int argc, char *filepath, t_game *game)
 {
-	// Check argument count (exactly 2 arguments: executable and map file)
-	if (argc != 2)
-	{
-		errno = EINVAL;
-		perror("Error\nProgram accepts only 1 argument");
-		return (-1);
-	}
-	
-	// Validate map file extension (.cub)
-	if (ft_strendswith(filepath, ".cub") == 0)
-	{
-		errno = EINVAL;
-		perror("Error\nFile must be of type '.cub'");
-		return (-1);
-	}
-
-	// Parse and validate map file
-	
-	int fd = open(filepath, O_RDONLY);
-	if (fd < 0)
-	{
-		errno = EBADF;
-		perror("Error\nCould not open file");
-		return (-1);
-	}
-
-
 	// First check trimmed map and get elements data
-	
+	int		fd; 
 	char	*line; 
 	int		unique = 0;
 	int		height = 0;
 	int		depth = 0;
+
+	fd = check_args_get_fd(argc, filepath);
+	if (check_args_get_fd(argc, filepath) < 0)
+		return (-1);
 
 	while (1)
 	{
@@ -184,20 +152,14 @@ int	get_map(int argc, char *filepath, t_game *game)
 		}
 		
 		if (!ft_strchr("NSWEFC10", line[0]))
-		{
-			printf("Error\nInvalid map format\n");
-			free_exit(line, game, fd);
-		}
+			error_exit(line, game, fd, 6);
 		
 		// For Texture Paths
 		if (ft_strncmp(line, "NO", 2) == 0)
 		{
 			game->tex_path_nsew[0] = ft_strdup(get_path(line, game, fd));
 			if (!game->tex_path_nsew[0])
-			{
-				printf("Error\nAllocation failed\n");
-				free_exit(line, game, fd);
-			}
+				error_exit(line, game, fd, 0);
 			depth++;
 			unique++;
 		}
@@ -205,10 +167,7 @@ int	get_map(int argc, char *filepath, t_game *game)
 		{
 			game->tex_path_nsew[1] = ft_strdup(get_path(line, game, fd));
 			if (!game->tex_path_nsew[1])
-			{
-				printf("Error\nAllocation failed\n");
-				free_exit(line, game, fd);
-			}
+				error_exit(line, game, fd, 0);
 			depth++;
 			unique++;
 		}
@@ -216,10 +175,7 @@ int	get_map(int argc, char *filepath, t_game *game)
 		{
 			game->tex_path_nsew[2] = ft_strdup(get_path(line, game, fd));
 			if (!game->tex_path_nsew[2])
-			{
-				printf("Error\nAllocation failed\n");
-				free_exit(line, game, fd);
-			}
+				error_exit(line, game, fd, 0);
 			depth++;
 			unique++;
 		}
@@ -227,10 +183,7 @@ int	get_map(int argc, char *filepath, t_game *game)
 		{
 			game->tex_path_nsew[3] = ft_strdup(get_path(line, game, fd));
 			if (!game->tex_path_nsew[3])
-			{
-				printf("Error\nAllocation failed\n");
-				free_exit(line, game, fd);
-			}
+				error_exit(line, game, fd, 0);
 			depth++;
 			unique++;
 		}
@@ -251,17 +204,12 @@ int	get_map(int argc, char *filepath, t_game *game)
 		
 		// For Map  (maybe put checks in map parsing?)
 		if (ft_strncmp(line, "0", 1) == 0 && unique == 6)
-		{
-			printf("Error\nInvalid map format: open wall\n");
-			free_exit(line, game, fd);
-		}
+				error_exit(line, game, fd, 3);
+
 		else if (ft_strncmp(line, "1", 1) == 0 && unique == 6)
 		{
 			if (ft_strendswith(line, "0"))
-			{
-				printf("Error\nInvalid map format: open wall\n");
-				free_exit(line, game, fd);
-			}
+				error_exit(line, game, fd, 3);
 			depth++;
 			height++;
 		}
@@ -276,10 +224,8 @@ int	get_map(int argc, char *filepath, t_game *game)
 
 	// check there were 7 unique arguments
 	if (unique != 7)
-	{
-		perror("Error\nInvalid map format\n");
-		return (-1);
-	}
+		error_exit(line, game, fd, 4);
+
 	game->map_height = height;
 	close(fd);
 
@@ -289,7 +235,6 @@ int	get_map(int argc, char *filepath, t_game *game)
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
 	{
-		errno = EBADF;
 		perror("Error\nCould not open file");
 		return (-1);
 	}
@@ -319,10 +264,8 @@ int	get_map(int argc, char *filepath, t_game *game)
 			while (line[j])
 			{
 				if (!ft_strchr(" NSWE10", line[j]))
-				{
-					printf("Error\nInvalid map format\n");
-					free_exit(line, game, fd);
-				}
+					error_exit(line, game, fd, 5);
+
 				// what to do with trailing spaces if there are? 
 				// checks for consecutive digits' sequence here?
 				// if (ft_isdigit(line[j]))
@@ -332,10 +275,11 @@ int	get_map(int argc, char *filepath, t_game *game)
 				j++;
 			}
 			
-			
 			// get width
 			int line_width = ft_strlen(line);
 			game->map[i] = ft_strdup(line);
+			if (!game->map[i])
+				error_exit(line, game, fd, 0);
 			i++;
 			if (max_width <= line_width)
 				max_width = line_width;

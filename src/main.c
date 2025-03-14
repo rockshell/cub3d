@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/11 16:32:23 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/14 23:37:02 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	init_struct(t_game *game)
 
 	return ;
 }
-
 
 int	main(int argc, char *argv[])
 {
