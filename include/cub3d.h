@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 00:04:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:14:04 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ enum	e_side
 {
 	NO,
 	SO,
-	WE,
-	EA
+	EA,
+	WE
 };
 
 typedef struct	s_rgb
@@ -55,7 +55,12 @@ typedef struct	s_game
 	
 }	t_game;
 
-
+typedef struct	s_error
+{
+	char	*line;
+	t_game	*game;
+	int		fd;
+}	t_error;
 
 
 char	*get_next_line(int fd);
@@ -71,7 +76,7 @@ void	free_exit(char *line, t_game *game, int fd);
 
 //error.c
 int		check_args_get_fd(int argc, char *filepath);
-void	error_exit(char *line, t_game *game, int fd, int error_code);
+void	error_exit(t_error error_s, int error_code);
 
 
 #endif
