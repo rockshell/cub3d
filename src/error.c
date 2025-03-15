@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:53:38 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 17:13:58 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:32:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,11 @@ void	error_exit(t_error error_s, int error_code)
 	else if (error_code == 7)
 		printf("Error\nInvalid color value\n");
 	else if (error_code == 8)
-		printf("Error\nInvalid file path\n");
+		printf("Error\nFile corrupted or does not exist\n");
+	else if (error_code == 9)
+		printf("Error\nBad player\n");
 
-	free_exit(error_s.line, error_s.game, error_s.fd);
+	free_exit(error_s);
 }
 
 int	check_args_get_fd(int argc, char *filepath)

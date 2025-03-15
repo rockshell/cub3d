@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 17:26:07 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:31:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char *get_path(t_error error_s)
 	// both absolute and relative are valid?
 	while (ft_isspace(*path))
 		path++;
-	if (!ft_strendswith(path, ".xpm"))
+	if (!ft_strendswith(path, ".xpm") && !ft_strendswith(path, ".png"))
 		error_exit(error_s, 1);
-
+		
 	// Check the existence of file
 	fd_test = open(path, O_RDONLY);
 	if (fd_test < 0)
@@ -128,7 +128,45 @@ void	process_tex_path(int dir, int *depth, int *unique, t_error error_s)
 	*unique += 1;
 }
 
-int	get_map(int argc, char *filepath, t_game *game)
+void	get_player_position(t_game *game)
+{
+	int		i;
+	int		j;
+	bool	player;
+	
+	i = 0;
+	player = false;
+	while (i < game->map_height)
+	{
+		j = 0;
+		while (game->map[i][j])
+		{
+			if (ft_strchr("NSWE", game->map[i][j]) && player)
+			{
+				printf("Error\nBad player\n");
+				free_game(game);
+				exit(1);
+			}
+			else if (ft_strchr("NSWE", game->map[i][j]) && !player)
+			{
+				player = true;
+				game->player_pos_x = j;
+				game->player_pos_y = i;
+				game->start_dir = game->map[i][j];
+			}
+			j++;
+		}
+		i++;
+	}
+	if (!player)
+	{
+		printf("Error\nNo player found\n");
+		free_game(game);
+		exit(1);
+	}
+}
+
+int	read_map(int argc, char *filepath, t_game *game)
 {
 	// First check trimmed map and get elements data
 
@@ -230,17 +268,20 @@ int	get_map(int argc, char *filepath, t_game *game)
 	}
 	error_s.fd = fd;
 	
+
+	// Get map
 	int row = 1;
 	int max_width = 0;
 	int i = 0;
+	char *tmp_line;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 			break ;
-		
-		// Trim trailing newline chars
-		char *tmp_line = line;
+			
+		// trim fun
+		tmp_line = line;
 		line = ft_strtrim(tmp_line, "\n\r");
 		free(tmp_line);
 		tmp_line = NULL;
@@ -248,54 +289,83 @@ int	get_map(int argc, char *filepath, t_game *game)
 		error_s.line = line;
 		if (row > (depth - height))
 		{
-			// printf("%s", line);
-			// checks
-			// bool digit = false;
 			int j = 0;
 			while (line[j])
 			{
 				if (!ft_strchr(" NSWE10", line[j]))
 					error_exit(error_s, 5);
-
-				// what to do with trailing spaces if there are? 
-				// checks for consecutive digits' sequence here?
-				// if (ft_isdigit(line[j]))
-				// 	digit = true;
-				// else if (ft_isspace(line[j]) && digit)
-					
 				j++;
 			}
-			
-			// get width
-			int line_width = ft_strlen(line);
+			if (line[j - 1] == ' ')
+				while (!ft_isdigit(line[--j]))
+					line[j] = '\0';
+			if (max_width <= j)
+				max_width = j;		
 			game->map[i] = ft_strdup(line);
 			if (!game->map[i])
 				error_exit(error_s, 0);
 			i++;
-			if (max_width <= line_width)
-				max_width = line_width;
-		
 		}
-		
 		row++;
-		
-		free(line);	
+		free(line);
+		line = NULL;
+
 	}
 	game->map[i] = NULL;
 	game->map_width = max_width;
-
-
-	printf("map width:	%d\n", game->map_width);
-	printf("map height:	%d\n", game->map_height);
-
-	
-	for (int i = 0; i < game->map_height; i++)
-	
-		printf("%s\n",game->map[i]);
-
 	close(fd);
+
+	// printf("map width:	%d\n", game->map_width);
+	// printf("map height:	%d\n", game->map_height);
+
+
+
+	// Check for player and get position
+	
+	// Check for borders 
+	int	j;
+	int	line_len;
+	i = 0;
+	while (i < game->map_height)
+	{		
+		j = 0;
+		line_len = (int) ft_strlen(game->map[i]);
+		if (game->map[i][j] == '0' || game->map[i][line_len - 1] == '0')
+		{
+			printf("Error\nInvalid map format: open wall\n");
+			printf("row: %d\ncol: %d\n", i + 1, j + 1);
+			free_game(game);
+			exit(1);
+		}
+		while (j < line_len)
+		{
+			// printf("%c", game->map[i][j]);
+			if ((i == 0 || i == game->map_height - 1 || (game->map[i][j + 1] == ' ')
+				|| (game->map[i][j - 1] == ' ') || (game->map[i + 1][j] == ' ')
+				|| (game->map[i + 1][j] == '\0') || (game->map[i - 1][j] == '\0')
+				|| (game->map[i - 1][j] == ' ')) && ft_strchr("0NSEW", game->map[i][j]))
+			{
+				// work on error_exit function
+				printf("Error\nInvalid map format: open wall\n");
+				printf("row: %d\ncol: %d\n", i + 1, j + 1);
+				free_game(game);
+				exit(1);
+
+			}
+			j++;
+		}
+		// printf("\n");
+		i++;
+	}
+
+	get_player_position(game);
+
+	printf("player_pos_x:	%d\n", game->player_pos_x);
+	printf("player_pos_y:	%d\n", game->player_pos_y);
+	printf("start dir:	%c\n", game->start_dir);
+	// for (int i = 0; i < game->map_height; i++)
+	// 	printf("%s\n",game->map[i]);
 
 	return (0);
 }
 
-// int	get_map_width()

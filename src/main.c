@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/14 23:37:02 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:12:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ void	init_struct(t_game *game)
 	game->ceil_color.r = 0;
 	game->ceil_color.g = 0;
 	game->ceil_color.b = 0;
+
+		
+	game->player_pos_x = 0;
+	game->player_pos_y = 0;
 
 	return ;
 }
@@ -31,12 +35,12 @@ int	main(int argc, char *argv[])
 	init_struct(game);
 	
 	// Check args, parse map
-	if (get_map(argc, argv[1], game) < 0)
+	if (read_map(argc, argv[1], game) < 0)
 	{
 		free_game(game);
 		return (EXIT_FAILURE);
 	}
-
+	
 
 	// Start game / Create main game structure
 	// Initialize MLX

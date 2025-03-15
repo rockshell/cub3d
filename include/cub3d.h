@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 17:14:04 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/15 23:20:03 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ typedef struct	s_game
 	int		map_height;
 	char	**map;
 	
+	int		player_pos_x;
+	int		player_pos_y;
+	char	start_dir;
 }	t_game;
 
 typedef struct	s_error
@@ -63,16 +66,19 @@ typedef struct	s_error
 }	t_error;
 
 
+
+
+
 char	*get_next_line(int fd);
 
-int		get_map(int argc, char *filepath, t_game *game);
+int		read_map(int argc, char *filepath, t_game *game);
 
 /* utils.c */ 
 int		cube_atoi(const char *nptr);
 
 
 void	free_game(t_game *game);
-void	free_exit(char *line, t_game *game, int fd);
+void	free_exit(t_error error_s);
 
 //error.c
 int		check_args_get_fd(int argc, char *filepath);
