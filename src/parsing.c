@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 23:31:59 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:27:09 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ t_rgb	parse_color(char *rgb_seq, t_error error_s)
 
 	sub_len = 0;
 	sub_count = -1;
-	sub_seq = malloc(sizeof(char) * 4);
+	sub_seq = malloc(sizeof(char) * ft_strlen(rgb_seq));
+	// printf("RBSEQ: %s\n", rgb_seq);
 	while (*rgb_seq)
 	{
 		while (ft_isdigit(*rgb_seq))
@@ -98,21 +99,21 @@ t_rgb	parse_color(char *rgb_seq, t_error error_s)
 	return (color);
 }
 
-t_rgb	get_color(t_error error_s)
+uint32_t	get_color(t_error error_s)
 {
-	t_rgb	color;
-	char	*rgb_seq;
+	t_rgb		color;
+	uint32_t	out_color;
+	char		*rgb_seq;
 
 	rgb_seq = error_s.line + 1;
 	while (ft_isspace(*rgb_seq))
 		rgb_seq++;
 	validate_color_format(rgb_seq, error_s);
 	color = parse_color(rgb_seq, error_s);
+	out_color = (color.r << 24) | (color.g << 16) | (color.b << 8) | 0xFF;
 
-	// printf("Red Color: %u\n", color.r);
-	// printf("Green Color: %u\n", color.g);
-	// printf("Blue Color: %u\n", color.b);
-	return (color);
+
+	return (out_color);
 }
 
 void	parse_map(void)
@@ -121,49 +122,11 @@ void	parse_map(void)
 
 void	process_tex_path(int dir, int *depth, int *unique, t_error error_s)
 {
-	error_s.game->tex_path_nsew[dir] = ft_strdup(get_path(error_s));
-	if (!error_s.game->tex_path_nsew[dir])
+	error_s.game->texture_path_nsew[dir] = ft_strdup(get_path(error_s));
+	if (!error_s.game->texture_path_nsew[dir])
 		error_exit(error_s, 0);
 	*depth += 1;
 	*unique += 1;
-}
-
-void	get_player_position(t_game *game)
-{
-	int		i;
-	int		j;
-	bool	player;
-	
-	i = 0;
-	player = false;
-	while (i < game->map_height)
-	{
-		j = 0;
-		while (game->map[i][j])
-		{
-			if (ft_strchr("NSWE", game->map[i][j]) && player)
-			{
-				printf("Error\nBad player\n");
-				free_game(game);
-				exit(1);
-			}
-			else if (ft_strchr("NSWE", game->map[i][j]) && !player)
-			{
-				player = true;
-				game->player_pos_x = j;
-				game->player_pos_y = i;
-				game->start_dir = game->map[i][j];
-			}
-			j++;
-		}
-		i++;
-	}
-	if (!player)
-	{
-		printf("Error\nNo player found\n");
-		free_game(game);
-		exit(1);
-	}
 }
 
 int	read_map(int argc, char *filepath, t_game *game)
@@ -179,7 +142,7 @@ int	read_map(int argc, char *filepath, t_game *game)
 	int		depth = 0;
 
 	fd = check_args_get_fd(argc, filepath);
-	if (check_args_get_fd(argc, filepath) < 0)
+	if (fd < 0)
 		return (-1);
 
 	error_s.game = game;
@@ -358,11 +321,6 @@ int	read_map(int argc, char *filepath, t_game *game)
 		i++;
 	}
 
-	get_player_position(game);
-
-	printf("player_pos_x:	%d\n", game->player_pos_x);
-	printf("player_pos_y:	%d\n", game->player_pos_y);
-	printf("start dir:	%c\n", game->start_dir);
 	// for (int i = 0; i < game->map_height; i++)
 	// 	printf("%s\n",game->map[i]);
 

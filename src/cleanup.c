@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 22:52:28 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/18 19:19:46 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,15 @@ void	free_game(t_game *game)
 	i = 0;
 	while (i < 4)
 	{
-		free(game->tex_path_nsew[i]);
-		game->tex_path_nsew[i] = NULL;
+		if (game->texture_path_nsew[i])
+		{
+			free(game->texture_path_nsew[i]);
+			game->texture_path_nsew[i] = NULL;
+		}
 		i++;
 	}
+	free(game->texture_path_nsew);
+	game->texture_path_nsew = NULL;
 	if (game->map)
 	{
 		i = 0;

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 23:20:03 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/18 20:11:57 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,22 @@ typedef struct	s_rgb
 
 typedef struct	s_game
 {
-	char	*tex_path_nsew[4];
+	char		**texture_path_nsew;
+		
+	uint32_t	ceil_color;
+	uint32_t	floor_color;
 	
-	t_rgb	floor_color;
-	t_rgb	ceil_color;
+	int			map_width;
+	int			map_height;
+	char		**map;
+		
+	int			player_pos_x;
+	int			player_pos_y;
+	char		start_dir;
 
-	int		map_width;
-	int		map_height;
-	char	**map;
-	
-	int		player_pos_x;
-	int		player_pos_y;
-	char	start_dir;
+	mlx_t		*mlx;
+	mlx_image_t	*img;
+
 }	t_game;
 
 typedef struct	s_error
