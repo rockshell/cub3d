@@ -1,0 +1,19 @@
+NO      ./assets/bluestone.xpm    
+SO      ./assets/colorstone.xpm
+
+EA      ./assets/purplestone.xpm     
+WE      ./assets/redbrick.xpm    
+
+C       87,170,230
+F       145,132,62
+
+1111111111
+1000000001
+1000000001
+1000000001
+1110001111
+1000E00001
+1000000001
+1000000001
+1000000001
+1111111111

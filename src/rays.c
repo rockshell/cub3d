@@ -6,7 +6,7 @@
 /*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/03/21 19:35:25 by arch             ###   ########.fr       */
+/*   Updated: 2025/03/21 21:48:08 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,16 @@ int		hit_the_wall(t_ray ray, t_game *game)
 {
 	int	map_x;
 	int	map_y;
-
-	map_x = (int)(ray.ray_x/TILE_SIZE);
-	map_y = (int)(ray.ray_y/TILE_SIZE);
-	// map_x = (int)(ray.ray_x);
-	// map_y = (int)(ray.ray_y);
-	// printf("%c\n", game->map[map_x][map_y]);
-	if (game->map[map_x][map_y] == '1')
+	
+	// map_x = (int)(ray.ray_x/TILE_SIZE);
+	// map_y = (int)(ray.ray_y/TILE_SIZE);
+	map_x = (int)(ray.ray_x);
+	map_y = (int)(ray.ray_y);
+	// printf("Map X: %i\nMap Y: %i\n", map_x, map_y);
+	if (game->map[map_y][map_x] == '1')
 	{
 		printf("Map X: %i\nMap Y: %i\n", map_x, map_y);
+		printf("Type: %c\n", game->map[map_x][map_y]);
 		printf("Hit the wall!\n");
 		return (1);
 	}
@@ -74,7 +75,7 @@ void	ray_casting(t_game *game)
 	ray_count = -1;
 	// ray_distance = 0.0;
 	ray_angle = (double) game->player_angle_view - HALF_FOV;
-
+	
 	while (++ray_count < WIN_WIDTH)
 	{
 		current_ray.ray_x = game->player_pos_x;
@@ -99,14 +100,10 @@ void	ray_casting(t_game *game)
 		printf("Ray count: %i\n", ray_count);
 		printf("Ray distance: %lf\n", ray_distance);
 		printf("Wall height: %i\n", wall_height(ray_distance));
+		printf("=======================\n");
 		draw_wall(ray_distance, ray_count, game);
 
-		// usleep(20000);
+		// usleep(2000);
 		ray_angle += (double)FOV/WIN_WIDTH;
 	}
-	
-	
-	
-
-
 }
