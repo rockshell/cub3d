@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/21 19:21:22 by arch             ###   ########.fr       */
+/*   Updated: 2025/03/22 02:50:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@
 
 #define WIN_WIDTH	640
 #define WIN_HEIGHT	480
-#define HALF_HEIGHT	240
+#define HALF_HEIGHT	(WIN_HEIGHT / 2)
 #define FOV			60
-#define	HALF_FOV	30
+#define	HALF_FOV	(FOV / 2)
 #define PRECISION	100
 #define	TILE_SIZE	64
 // #define PI 			3.14159265359
@@ -102,6 +102,7 @@ void	error_exit(t_error error_s, int error_code);
 
 //rays.c
 void	ray_casting(t_game *game);
+double	degree_to_radians(double degree);
 
 
 
