@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/21 21:29:29 by arch             ###   ########.fr       */
+/*   Updated: 2025/03/22 02:44:00 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,11 @@ void	ft_mlxerror(t_game *game)
 int		get_player_angle(char direction)
 {
 	if (direction == 'N')
-		return(90);
+		return(270);
 	else if (direction == 'E')
 		return(0);
 	else if (direction == 'S')
-		return(270);
+		return(90);
 	else if (direction == 'W')
 		return(180);
 	return (-1);
@@ -107,26 +107,38 @@ static void	all_keyhooks(mlx_key_data_t keydata, void *param)
 	t_game	*game;
 
 	game = (t_game *)param;
-	// if (keydata.key == MLX_KEY_RIGHT_BRACKET && key_pressed(keydata))
-	// 	game->control->scale += 1;
-	// if (keydata.key == MLX_KEY_LEFT_BRACKET && key_pressed(keydata))
-	// 	game->control->scale -= 1;
-	// if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
-	// 	game->control->transpose_x += 20;
-	// if (keydata.key == MLX_KEY_LEFT && key_pressed(keydata))
-	// 	game->control->transpose_x -= 20;
-	// if (keydata.key == MLX_KEY_UP && key_pressed(keydata))
-	// 	game->control->transpose_y -= 20;
-	// if (keydata.key == MLX_KEY_DOWN && key_pressed(keydata))
-	// 	game->control->transpose_y += 20;
 	// if (keydata.key == MLX_KEY_PAGE_UP && key_pressed(keydata))
 	// 	game->control->rotate -= 0.1;
 	// if (keydata.key == MLX_KEY_PAGE_DOWN && key_pressed(keydata))
 	// 	game->control->rotate += 0.1;
-	// if (keydata.key == MLX_KEY_EQUAL && key_pressed(keydata))
-	// 	game->control->stretch += 0.5;
-	// if (keydata.key == MLX_KEY_MINUS && key_pressed(keydata))
-	// 	game->control->stretch -= 0.5;
+	if (keydata.key == MLX_KEY_Q && key_pressed(keydata))
+	{
+		game->player_angle_view -= 1;
+	}
+	if (keydata.key == MLX_KEY_E && key_pressed(keydata))
+	{
+		game->player_angle_view += 1;
+	}
+	if (keydata.key == MLX_KEY_W && key_pressed(keydata))
+	{
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view))/PRECISION;
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view))/PRECISION;
+	}
+	if (keydata.key == MLX_KEY_S && key_pressed(keydata))
+	{
+		game->player_pos_x -= cos(degree_to_radians(game->player_angle_view))/PRECISION;
+		game->player_pos_y -= sin(degree_to_radians(game->player_angle_view))/PRECISION;
+	}
+	if (keydata.key == MLX_KEY_A && key_pressed(keydata))
+	{
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view - 90))/PRECISION;
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view - 90))/PRECISION;
+	}
+	if (keydata.key == MLX_KEY_D && key_pressed(keydata))
+	{
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view + 90))/PRECISION;
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view + 90))/PRECISION;
+	}
 	if (keydata.key == MLX_KEY_ESCAPE && key_pressed(keydata))
 		mlx_close_window(game->mlx);
 }
