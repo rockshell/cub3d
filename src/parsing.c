@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/18 20:27:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/21 18:49:52 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,9 @@ int	read_map(int argc, char *filepath, t_game *game)
 
 	// for (int i = 0; i < game->map_height; i++)
 	// 	printf("%s\n",game->map[i]);
+
+	// printf("-- %s\n",game->map[9]);
+
 
 	return (0);
 }

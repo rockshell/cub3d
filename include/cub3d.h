@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/18 20:11:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:21:22 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,12 @@
 
 #define WIN_WIDTH	640
 #define WIN_HEIGHT	480
+#define HALF_HEIGHT	240
+#define FOV			60
+#define	HALF_FOV	30
+#define PRECISION	100
+#define	TILE_SIZE	64
+// #define PI 			3.14159265359
 
 enum	e_side
 {
@@ -41,6 +47,11 @@ typedef struct	s_rgb
 	unsigned int	b;
 }	t_rgb;
 
+typedef struct s_ray
+{
+	double	ray_x;
+	double	ray_y;
+}	t_ray;
 
 typedef struct	s_game
 {
@@ -53,8 +64,9 @@ typedef struct	s_game
 	int			map_height;
 	char		**map;
 		
-	int			player_pos_x;
-	int			player_pos_y;
+	double		player_pos_x;
+	double		player_pos_y;
+	int			player_angle_view;
 	char		start_dir;
 
 	mlx_t		*mlx;
@@ -87,6 +99,10 @@ void	free_exit(t_error error_s);
 //error.c
 int		check_args_get_fd(int argc, char *filepath);
 void	error_exit(t_error error_s, int error_code);
+
+//rays.c
+void	ray_casting(t_game *game);
+
 
 
 #endif

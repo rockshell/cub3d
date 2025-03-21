@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/18 20:37:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/21 19:04:55 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	init_struct(t_game *game)
 	game->ceil_color = 0;
 	game->floor_color = 0;
 
-	game->player_pos_x = 0;
-	game->player_pos_y = 0;
+	game->player_pos_x = 0.0;
+	game->player_pos_y = 0.0;
 
 	game->map = NULL;
 
@@ -40,6 +40,19 @@ void	ft_mlxerror(t_game *game)
 	free_game(game);
 	perror(mlx_strerror(mlx_errno));
 	exit(1);
+}
+
+int		get_player_angle(char direction)
+{
+	if (direction == 'N')
+		return(90);
+	else if (direction == 'E')
+		return(0);
+	else if (direction == 'S')
+		return(270);
+	else if (direction == 'W')
+		return(180);
+	return (-1);
 }
 
 void	get_player_position(t_game *game)
@@ -64,9 +77,10 @@ void	get_player_position(t_game *game)
 			else if (ft_strchr("NSWE", game->map[i][j]) && !player)
 			{
 				player = true;
-				game->player_pos_x = j;
-				game->player_pos_y = i;
+				game->player_pos_x = (double) j;
+				game->player_pos_y = (double) i;
 				game->start_dir = game->map[i][j];
+				game->player_angle_view = get_player_angle(game->start_dir);
 			}
 			j++;
 		}
@@ -144,7 +158,8 @@ void	render_control(void *param)
 
 	game = (t_game *)param;
 	render_bg((t_game *)game);
-	// render_map((t_game *)game);
+	ray_casting(game);
+	// render_walls((t_game *)game);
 	mlx_key_hook(game->mlx, all_keyhooks, game);
 }
 
@@ -173,8 +188,8 @@ int	main(int argc, char *argv[])
 
 	// Get player initial position
 	get_player_position(game);
-	printf("player_pos_x:	%d\n", game->player_pos_x);
-	printf("player_pos_y:	%d\n", game->player_pos_y);
+	printf("player_pos_x:	%lf\n", game->player_pos_x);
+	printf("player_pos_y:	%lf\n", game->player_pos_y);
 	printf("start dir:	%c\n", game->start_dir);
 	
 	// Initialize game window
