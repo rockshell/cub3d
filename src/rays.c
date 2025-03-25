@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/03/21 21:48:08 by arch             ###   ########.fr       */
+/*   Updated: 2025/03/25 18:53:47 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		hit_the_wall(t_ray ray, t_game *game)
 	if (game->map[map_y][map_x] == '1')
 	{
 		printf("Map X: %i\nMap Y: %i\n", map_x, map_y);
-		printf("Type: %c\n", game->map[map_x][map_y]);
+		// printf("Type: %c\n", game->map[map_x][map_y]);
 		printf("Hit the wall!\n");
 		return (1);
 	}
@@ -63,6 +63,16 @@ void	draw_wall(double distance, int width, t_game *game)
 	}
 }
 
+double    fix_fisheye(t_game *game, double distance, double ray_angle)
+{
+    double    corrected_distance;
+    double    beta_angle;
+
+    beta_angle = fabs(ray_angle - game->player_angle_view);
+    corrected_distance = distance * cos(degree_to_radians(beta_angle));
+    return (corrected_distance);
+}
+
 void	ray_casting(t_game *game)
 {
 	int		ray_count;
@@ -94,6 +104,7 @@ void	ray_casting(t_game *game)
 		
 		ray_distance = sqrt(pow(current_ray.ray_x - game->player_pos_x, 2.0) + 
                     pow(current_ray.ray_y - game->player_pos_y, 2.0));
+		ray_distance = fix_fisheye(game, ray_distance, ray_angle);
 		// ray_distance = pow(current_ray.ray_x - game->player_pos_x, 2.0) + 
         //             pow(current_ray.ray_y - game->player_pos_y, 2.0);
 		printf("Ray angle: %f\n", ray_angle);
