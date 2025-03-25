@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/22 02:44:00 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:08:22 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,23 +121,23 @@ static void	all_keyhooks(mlx_key_data_t keydata, void *param)
 	}
 	if (keydata.key == MLX_KEY_W && key_pressed(keydata))
 	{
-		game->player_pos_x += cos(degree_to_radians(game->player_angle_view))/PRECISION;
-		game->player_pos_y += sin(degree_to_radians(game->player_angle_view))/PRECISION;
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view))/(PRECISION/100);
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view))/(PRECISION/100);
 	}
 	if (keydata.key == MLX_KEY_S && key_pressed(keydata))
 	{
-		game->player_pos_x -= cos(degree_to_radians(game->player_angle_view))/PRECISION;
-		game->player_pos_y -= sin(degree_to_radians(game->player_angle_view))/PRECISION;
+		game->player_pos_x -= cos(degree_to_radians(game->player_angle_view))/(PRECISION/100);
+		game->player_pos_y -= sin(degree_to_radians(game->player_angle_view))/(PRECISION/100);
 	}
 	if (keydata.key == MLX_KEY_A && key_pressed(keydata))
 	{
-		game->player_pos_x += cos(degree_to_radians(game->player_angle_view - 90))/PRECISION;
-		game->player_pos_y += sin(degree_to_radians(game->player_angle_view - 90))/PRECISION;
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view - 90))/(PRECISION/100);
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view - 90))/(PRECISION/100);
 	}
 	if (keydata.key == MLX_KEY_D && key_pressed(keydata))
 	{
-		game->player_pos_x += cos(degree_to_radians(game->player_angle_view + 90))/PRECISION;
-		game->player_pos_y += sin(degree_to_radians(game->player_angle_view + 90))/PRECISION;
+		game->player_pos_x += cos(degree_to_radians(game->player_angle_view + 90))/(PRECISION/100);
+		game->player_pos_y += sin(degree_to_radians(game->player_angle_view + 90))/(PRECISION/100);
 	}
 	if (keydata.key == MLX_KEY_ESCAPE && key_pressed(keydata))
 		mlx_close_window(game->mlx);
