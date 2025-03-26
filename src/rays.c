@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/03/25 20:17:11 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:00:22 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int		hit_the_wall(t_ray ray, t_game *game)
+int	hit_the_wall(t_ray ray, t_game *game)
 {
 	int	map_x;
 	int	map_y;
@@ -30,91 +30,47 @@ int		hit_the_wall(t_ray ray, t_game *game)
 		return (1);
 	}
 	return (0);
-	
 }
 
-double	degree_to_radians(double degree)
+double	deg_to_rad(double degree)
 {
 	return (degree * M_PI / 180);
 }
 
-int		wall_height(double distance)
+double	fix_fisheye(t_game *game, double distance, double ray_angle)
 {
-	return(floor(HALF_HEIGHT/distance));
-}
+	double	corrected_distance;
+	double	beta_angle;
 
-void	draw_wall(double distance, int width, t_game *game)
-{
-	int	i;
-	int height;
-
-	i = HALF_HEIGHT;
-	height = (wall_height(distance));
-	while (i > HALF_HEIGHT-(height/2))
-	{
-		mlx_put_pixel(game->img, width, i, 0x000000);
-		i--;
-	}
-	i = HALF_HEIGHT;
-	while (i < HALF_HEIGHT+(height/2))
-	{
-		mlx_put_pixel(game->img, width, i, 0x000000);
-		i++;
-	}
-}
-
-double    fix_fisheye(t_game *game, double distance, double ray_angle)
-{
-    double    corrected_distance;
-    double    beta_angle;
-
-    beta_angle = fabs(ray_angle - game->player_angle_view);
-    corrected_distance = distance * cos(degree_to_radians(beta_angle));
-    return (corrected_distance);
+	beta_angle = fabs(ray_angle - game->plr_angle);
+	corrected_distance = distance * cos(deg_to_rad(beta_angle));
+	return (corrected_distance);
 }
 
 void	ray_casting(t_game *game)
 {
 	int		ray_count;
 	double	ray_angle;
-	double	ray_sin;
-	double	ray_cos;
 	double	ray_distance;
-	t_ray	current_ray;
+	t_ray	curr_ray;
 
 	ray_count = -1;
-	// ray_distance = 0.0;
-	ray_angle = (double) game->player_angle_view - HALF_FOV;
-	
+	ray_angle = (double) game->plr_angle - HALF_FOV;
 	while (++ray_count < WIN_WIDTH)
 	{
-		current_ray.ray_x = game->player_pos_x;
-		current_ray.ray_y = game->player_pos_y;
-		ray_cos = cos(degree_to_radians(ray_angle))/PRECISION;
-		ray_sin = sin(degree_to_radians(ray_angle))/PRECISION;
-		// printf("Cos: %f\nSin: %f\n", ray_cos, ray_sin);
-		while (!hit_the_wall(current_ray, game))
+		curr_ray.ray_x = game->plr_pos_x;
+		curr_ray.ray_y = game->plr_pos_y;
+		curr_ray.ray_cos = cos(deg_to_rad(ray_angle)) / PREC;
+		curr_ray.ray_sin = sin(deg_to_rad(ray_angle)) / PREC;
+		while (!hit_the_wall(curr_ray, game))
 		{
-			current_ray.ray_x += ray_cos;
-			current_ray.ray_y += ray_sin;
-			// usleep(1000);
+			curr_ray.ray_x += curr_ray.ray_cos;
+			curr_ray.ray_y += curr_ray.ray_sin;
 		}
-		printf("ray_x: %lf\nray_y: %lf\n", current_ray.ray_x, current_ray.ray_y);
-		printf("player_pos_x: %lf\nplayer_pos_y: %lf\n", game->player_pos_x, game->player_pos_y);
-		
-		ray_distance = sqrt(pow(current_ray.ray_x - game->player_pos_x, 2.0) + 
-                    pow(current_ray.ray_y - game->player_pos_y, 2.0));
+		ray_distance = sqrt(pow(curr_ray.ray_x - game->plr_pos_x, 2.0)
+				+ pow(curr_ray.ray_y - game->plr_pos_y, 2.0));
 		ray_distance = fix_fisheye(game, ray_distance, ray_angle);
-		// ray_distance = pow(current_ray.ray_x - game->player_pos_x, 2.0) + 
-        //             pow(current_ray.ray_y - game->player_pos_y, 2.0);
-		printf("Ray angle: %f\n", ray_angle);
-		printf("Ray count: %i\n", ray_count);
-		printf("Ray distance: %lf\n", ray_distance);
-		printf("Wall height: %i\n", wall_height(ray_distance));
-		printf("=======================\n");
 		draw_wall(ray_distance, ray_count, game);
-
-		// usleep(2000);
-		ray_angle += (double)FOV/WIN_WIDTH;
+		ray_angle += (double) FOV / WIN_WIDTH;
 	}
 }

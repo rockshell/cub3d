@@ -3,29 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/25 20:38:09 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/03/26 20:05:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-char *get_path(t_error error_s)
+char	*get_path(t_error error_s)
 {
 	char	*path;
 	int		fd_test;
 	
 	path = error_s.line + 2;
-	// both absolute and relative are valid?
 	while (ft_isspace(*path))
 		path++;
 	if (!ft_strendswith(path, ".xpm") && !ft_strendswith(path, ".png"))
 		error_exit(error_s, 1);
-		
-	// Check the existence of file
 	fd_test = open(path, O_RDONLY);
 	if (fd_test < 0)
 	{
@@ -69,7 +65,6 @@ t_rgb	parse_color(char *rgb_seq, t_error error_s)
 	sub_len = 0;
 	sub_count = -1;
 	sub_seq = malloc(sizeof(char) * ft_strlen(rgb_seq));
-	// printf("RBSEQ: %s\n", rgb_seq);
 	while (*rgb_seq)
 	{
 		while (ft_isdigit(*rgb_seq))
@@ -111,8 +106,6 @@ uint32_t	get_color(t_error error_s)
 	validate_color_format(rgb_seq, error_s);
 	color = parse_color(rgb_seq, error_s);
 	out_color = (color.r << 24) | (color.g << 16) | (color.b << 8) | 0xFF;
-
-
 	return (out_color);
 }
 
@@ -131,10 +124,7 @@ void	process_tex_path(int dir, int *depth, int *unique, t_error error_s)
 
 int	read_map(int argc, char *filepath, t_game *game)
 {
-	// First check trimmed map and get elements data
-
 	t_error	error_s;
-
 	int		fd; 
 	char	*line; 
 	int		unique = 0;
@@ -144,10 +134,8 @@ int	read_map(int argc, char *filepath, t_game *game)
 	fd = check_args_get_fd(argc, filepath);
 	if (fd < 0)
 		return (-1);
-
 	error_s.game = game;
 	error_s.fd = fd;
-
 	while (1)
 	{
 		line = get_next_line(fd);
@@ -277,13 +265,6 @@ int	read_map(int argc, char *filepath, t_game *game)
 	game->map[i] = NULL;
 	game->map_width = max_width;
 	close(fd);
-
-	// printf("map width:	%d\n", game->map_width);
-	// printf("map height:	%d\n", game->map_height);
-
-
-
-	// Check for player and get position
 	
 	// Check for borders 
 	int	j;
@@ -296,13 +277,12 @@ int	read_map(int argc, char *filepath, t_game *game)
 		if (game->map[i][j] == '0' || game->map[i][line_len - 1] == '0')
 		{
 			printf("Error\nInvalid map format: open wall\n");
-			printf("row: %d\ncol: %d\n", i + 1, j + 1);
 			free_game(game);
 			exit(1);
 		}
 		while (j < line_len)
 		{
-			// printf("%c", game->map[i][j]);
+			// checkin j - 1 should be only if j > 0
 			if ((i == 0 || i == game->map_height - 1 || (game->map[i][j + 1] == ' ')
 				|| (game->map[i][j - 1] == ' ') || (game->map[i + 1][j] == ' ')
 				|| (game->map[i + 1][j] == '\0') || (game->map[i - 1][j] == '\0')
@@ -317,16 +297,8 @@ int	read_map(int argc, char *filepath, t_game *game)
 			}
 			j++;
 		}
-		// printf("\n");
 		i++;
 	}
-
-	// for (int i = 0; i < game->map_height; i++)
-	// 	printf("%s\n",game->map[i]);
-
-	// printf("-- %s\n",game->map[9]);
-
-
 	return (0);
 }
 
