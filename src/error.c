@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:53:38 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/15 23:32:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:51:56 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,19 @@ void	error_exit(t_error error_s, int error_code)
 		printf("Error\nFile corrupted or does not exist\n");
 	else if (error_code == 9)
 		printf("Error\nBad player\n");
-
 	free_exit(error_s);
 }
 
 int	check_args_get_fd(int argc, char *filepath)
 {
-	int	fd; 
+	int	fd;
 
 	if (argc != 2)
 	{
 		errno = EINVAL;
 		perror("Error\nProgram accepts only 1 argument\n");
 		return (-1);
-	}	
+	}
 	if (ft_strendswith(filepath, ".cub") == 0)
 	{
 		errno = EINVAL;
@@ -62,4 +61,11 @@ int	check_args_get_fd(int argc, char *filepath)
 		return (-1);
 	}
 	return (fd);
+}
+
+void	ft_mlxerror(t_game *game)
+{
+	free_game(game);
+	perror(mlx_strerror(mlx_errno));
+	exit(1);
 }
