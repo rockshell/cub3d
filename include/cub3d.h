@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/26 20:00:42 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:25:43 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		720
-# define WIN_HEIGHT		576
+# define WIN_WIDTH		64
+# define WIN_HEIGHT		64
 # define HALF_HEIGHT	(WIN_HEIGHT / 2)
 # define FOV			60
 # define HALF_FOV		(FOV / 2)
@@ -54,6 +54,18 @@ typedef struct s_ray
 	double	ray_cos;
 }	t_ray;
 
+typedef struct s_assets
+{
+	mlx_texture_t		*n_texture;
+	mlx_texture_t		*s_texture;
+	mlx_texture_t		*w_texture;
+	mlx_texture_t		*e_texture;
+	mlx_image_t	*n_image;
+	mlx_image_t	*s_image;
+	mlx_image_t	*w_image;
+	mlx_image_t	*e_image;
+}	t_assets;
+
 typedef struct s_game
 {
 	char		**texture_path_nsew;
@@ -68,7 +80,9 @@ typedef struct s_game
 	char		start_dir;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	t_assets	*assets;
 }	t_game;
+
 
 typedef struct s_error
 {
