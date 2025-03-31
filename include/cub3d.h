@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/31 23:59:16 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:55:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ typedef struct s_ray
 
 typedef struct s_assets
 {
-	mlx_texture_t	*n_texture;
-	mlx_texture_t	*s_texture;
-	mlx_texture_t	*w_texture;
-	mlx_texture_t	*e_texture;
 	mlx_image_t		*n_image;
 	mlx_image_t		*s_image;
 	mlx_image_t		*w_image;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/31 19:33:38 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/01 00:56:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,24 @@
 
 void	init_assets(t_game *game)
 {
-	// free in the end
-	game->assets = malloc(sizeof(t_assets));
-	game->assets->n_texture = mlx_load_png(game->texture_path_nsew[0]);
-	game->assets->s_texture = mlx_load_png(game->texture_path_nsew[1]);
-	game->assets->e_texture = mlx_load_png(game->texture_path_nsew[2]);
-	game->assets->w_texture = mlx_load_png(game->texture_path_nsew[3]);
-	printf("kek");
-	game->assets->n_image = mlx_texture_to_image(game->mlx, game->assets->n_texture);
-	game->assets->s_image = mlx_texture_to_image(game->mlx, game->assets->s_texture);
-	game->assets->e_image = mlx_texture_to_image(game->mlx, game->assets->e_texture);
-	game->assets->w_image = mlx_texture_to_image(game->mlx, game->assets->w_texture);
-	mlx_delete_texture(game->assets->n_texture);
-	mlx_delete_texture(game->assets->s_texture);
-	mlx_delete_texture(game->assets->e_texture);
-	mlx_delete_texture(game->assets->w_texture);
-
-	// printf("PIXEL DATA: %u\n", game->assets->n_image->pixels[0]);
-	// printf("PIXEL DATA: %u\n", game->assets->n_image->pixels[1]);
-	// printf("PIXEL DATA: %u\n", game->assets->n_image->pixels[2]);
+	mlx_texture_t	*n_texture;
+	mlx_texture_t	*s_texture;
+	mlx_texture_t	*w_texture;
+	mlx_texture_t	*e_texture;
 	
-	// exit(1);
-
+	game->assets = malloc(sizeof(t_assets));
+	n_texture = mlx_load_png(game->texture_path_nsew[0]);
+	s_texture = mlx_load_png(game->texture_path_nsew[1]);
+	e_texture = mlx_load_png(game->texture_path_nsew[2]);
+	w_texture = mlx_load_png(game->texture_path_nsew[3]);
+	game->assets->n_image = mlx_texture_to_image(game->mlx, n_texture);
+	game->assets->s_image = mlx_texture_to_image(game->mlx, s_texture);
+	game->assets->e_image = mlx_texture_to_image(game->mlx, e_texture);
+	game->assets->w_image = mlx_texture_to_image(game->mlx, w_texture);
+	mlx_delete_texture(n_texture);
+	mlx_delete_texture(s_texture);
+	mlx_delete_texture(e_texture);
+	mlx_delete_texture(w_texture);
 }
 
 int	init_struct(t_game *game)
