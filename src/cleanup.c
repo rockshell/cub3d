@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/18 19:19:46 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 00:01:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_game(t_game *game)
 		free(game->map);
 		game->map = NULL;
 	}
+	if (game->assets)
+		free(game->assets);
 	free(game);
 }
 
