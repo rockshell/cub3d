@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 01:15:19 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:53:29 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,6 @@ void	draw_wall(double distance, int x, t_game *game)
 		// y += y_increment;
 		y++;
 	}
-	// y = HALF_HEIGHT;
-	// while (y < HALF_HEIGHT + (wall_height / 2))
-	// {
-	// 	index = ((y % height) * width + (x % width)) * 4;
-	// 	red = game->assets->s_image->pixels[index] << 24;
-	// 	green = game->assets->s_image->pixels[index + 1] << 16;
-	// 	blue = game->assets->s_image->pixels[index + 2] << 8;
-	// 	alpha = game->assets->s_image->pixels[index + 3];
-	// 	color = red | green | blue | alpha;
-	// 	mlx_put_pixel(game->img, x, y, color);
-	// }
-
-
-	
-	// for (int y = 0; y < height; y++)
-	// {
-	// 	for (int x = 0; x < width; x++)
-	// 	{
-	// 		// if ((i - x - 1) % 3 == 0)
-	// 		// 	alpha = (game->assets->s_image->pixels[i]);
-	// 		// printf("PIXEL DATA: %x\n", alpha);
-
-	// 	}
-
-	// }
 }
 
 void	render_game(void *param)

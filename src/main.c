@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 00:56:15 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 12:55:30 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@ void	init_assets(t_game *game)
 	mlx_texture_t	*e_texture;
 	
 	game->assets = malloc(sizeof(t_assets));
+	if (!game->assets)
+	{
+		// error_exit();
+		free_game(game);
+	}
 	n_texture = mlx_load_png(game->texture_path_nsew[0]);
 	s_texture = mlx_load_png(game->texture_path_nsew[1]);
 	e_texture = mlx_load_png(game->texture_path_nsew[2]);
