@@ -15,7 +15,7 @@ LIBS		:=	$(LIBFT) $(LIBMLX) -ldl -lglfw -lm # -pthread
 
 SRCS_DIR	:=	./src/
 SRCS 		:=	main.c get_next_line.c parsing.c ft_isspace.c cleanup.c \
-				utils.c error.c rays.c render.c controls.c
+				utils.c error.c rays.c render.c controls.c init.c
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 OBJS		:=	${SRCS:.c=.o}

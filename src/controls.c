@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 16:56:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:45:28 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,91 @@ static bool	key_pressed(mlx_key_data_t keydata)
 static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_LEFT && key_pressed(keydata))
-		game->plr_angle -= 2;
-	if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
-		game->plr_angle += 2;
+	{
+		game->plr_angle -= 1;
+		if (game->plr_angle == -1)
+			game->plr_angle = 359;
+		printf("Player's angle of view: %i\n", game->plr_angle);
+	}
+	else if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
+	{
+		game->plr_angle += 1;
+		if (game->plr_angle == 360)
+			game->plr_angle = 0;
+		printf("Player's angle of view: %i\n", game->plr_angle);
+	}
+	
+// =======
+// 		game->plr_angle -= 2;
+// 	if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
+// 		game->plr_angle += 2;
+}
+
+int	test_new_position(t_game *game, mlx_key_data_t keydata)
+{
+	t_ray test_position;
+
+	test_position.ray_x = game->plr_pos_x;
+	test_position.ray_y = game->plr_pos_y;
+	if (keydata.key == MLX_KEY_W && key_pressed(keydata))
+	{
+		test_position.ray_x += cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+		test_position.ray_y += sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+	}
+	else if (keydata.key == MLX_KEY_S && key_pressed(keydata))
+	{
+		test_position.ray_x -= cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+		test_position.ray_y -= sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+	}
+	else if (keydata.key == MLX_KEY_A && key_pressed(keydata))
+	{
+		test_position.ray_x += cos(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+		test_position.ray_y += sin(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+	}
+	else if (keydata.key == MLX_KEY_D && key_pressed(keydata))
+	{
+		test_position.ray_x += cos(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+		test_position.ray_y += sin(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+	}
+	if (hit_the_wall(test_position, game))
+		return(1);
+	return(0);
+	
 }
 
 static void	move_controls(t_game *game, mlx_key_data_t keydata)
 {
-	if (keydata.key == MLX_KEY_W && key_pressed(keydata))
+	if (test_new_position(game, keydata) == 0)
 	{
-		game->plr_pos_x += cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
-		game->plr_pos_y += sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+		if (keydata.key == MLX_KEY_W && key_pressed(keydata) && test_new_position(game, keydata) == 0)
+		{
+			game->plr_pos_x += cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+			game->plr_pos_y += sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+			printf("Player's position. X: %i\nY: %i\n", (int)game->plr_pos_x, (int)game->plr_pos_y);
+		}
+		else if (keydata.key == MLX_KEY_S && key_pressed(keydata) && test_new_position(game, keydata) == 0)
+		{
+			game->plr_pos_x -= cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+			game->plr_pos_y -= sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+			printf("Player's position. X: %i\nY: %i\n", (int)game->plr_pos_x, (int)game->plr_pos_y);
+		}
+		else if (keydata.key == MLX_KEY_A && key_pressed(keydata) && test_new_position(game, keydata) == 0)
+		{
+			game->plr_pos_x += cos(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+			game->plr_pos_y += sin(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+			printf("Player's position. X: %i\nY: %i\n", (int)game->plr_pos_x, (int)game->plr_pos_y);
+		}
+		else if (keydata.key == MLX_KEY_D && key_pressed(keydata) && test_new_position(game, keydata) == 0)
+		{
+			game->plr_pos_x += cos(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+			game->plr_pos_y += sin(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+			printf("Player's position. X: %i\nY: %i\n", (int)game->plr_pos_x, (int)game->plr_pos_y);
+		}
 	}
-	if (keydata.key == MLX_KEY_S && key_pressed(keydata))
-	{
-		game->plr_pos_x -= cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
-		game->plr_pos_y -= sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
-	}
-	if (keydata.key == MLX_KEY_A && key_pressed(keydata))
-	{
-		game->plr_pos_x += cos(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
-		game->plr_pos_y += sin(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
-	}
-	if (keydata.key == MLX_KEY_D && key_pressed(keydata))
-	{
-		game->plr_pos_x += cos(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
-		game->plr_pos_y += sin(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
-	}
+	else
+		printf("There's a wall here!\n");		
 }
+	
 
 void	all_keyhooks(mlx_key_data_t keydata, void *param)
 {

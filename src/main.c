@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 15:53:15 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:23:10 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,27 +37,6 @@ void	init_assets(t_game *game)
 	mlx_delete_texture(s_texture);
 	mlx_delete_texture(e_texture);
 	mlx_delete_texture(w_texture);
-}
-
-int	init_struct(t_game *game)
-{
-	int	i;
-
-	game->texture_path_nsew = malloc(sizeof(char *) * 4);
-	if (!game->texture_path_nsew)
-		return (-1);
-	i = 0;
-	while (i < 4)
-	{
-		game->texture_path_nsew[i] = NULL;
-		i++;
-	}
-	game->ceil_color = 0;
-	game->floor_color = 0;
-	game->plr_pos_x = 0.0;
-	game->plr_pos_y = 0.0;
-	game->map = NULL;
-	return (0);
 }
 
 int	get_player_angle(char direction)
@@ -123,7 +102,7 @@ int	main(int argc, char *argv[])
 		free_game(game);
 		return (EXIT_FAILURE);
 	}
-	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "CUB3D", true);
+	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "CUB3D", false);
 	if (!game->mlx)
 		ft_mlxerror(game);
 	init_assets(game);

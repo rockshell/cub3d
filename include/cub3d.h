@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 16:32:02 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 21:02:36 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ typedef struct s_game
 	char		start_dir;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t *prev_frame;
 	t_assets	*assets;
+	double			*walls_arr;
 }	t_game;
 
 
@@ -87,6 +89,11 @@ typedef struct s_error
 	int		fd;
 }	t_error;
 
+//init
+int	init_struct(t_game *game);
+
+
+//readmap
 char	*get_next_line(int fd);
 int		read_map(int argc, char *filepath, t_game *game);
 
@@ -111,5 +118,6 @@ void	ft_mlxerror(t_game *game);
 //rays.c
 void	ray_casting(t_game *game);
 double	deg_to_rad(double degree);
+int		hit_the_wall(t_ray ray, t_game *game);
 
 #endif

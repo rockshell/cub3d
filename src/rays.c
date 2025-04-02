@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/04/02 14:02:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:05:52 by arch             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,11 @@ int	hit_the_wall(t_ray ray, t_game *game)
 {
 	int	map_x;
 	int	map_y;
-
+ 
 	map_x = (int)(ray.ray_x);
 	map_y = (int)(ray.ray_y);
 	if (game->map[map_y][map_x] == '1')
-	{
-		// printf("Map X: %i\nMap Y: %i\n", map_x, map_y);
-		// printf("Type: %c\n", game->map[map_x][map_y]);
-		// printf("Hit the wall!\n");
 		return (1);
-	}
 	return (0);
 }
 
@@ -66,8 +61,8 @@ void	ray_casting(t_game *game)
 		}
 		ray_dist = sqrt(pow(curr_ray.ray_x - game->plr_pos_x, 2.0)
 				+ pow(curr_ray.ray_y - game->plr_pos_y, 2.0));
-		ray_dist = fix_fisheye(game, ray_dist, ray_angle);
-		draw_wall(ray_dist, ray_count, game);
+		ray_distance = fix_fisheye(game, ray_distance, ray_angle);
+		game->walls_arr[ray_count] = ray_distance;
 		ray_angle += (double) FOV / WIN_WIDTH;
 	}
 }
