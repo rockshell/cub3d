@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:42:06 by arch              #+#    #+#             */
-/*   Updated: 2025/04/01 21:03:01 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/02 16:25:07 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	init_struct(t_game *game)
 	game->plr_pos_y = 0.0;
 	game->map = NULL;
 	game->prev_frame = NULL;
+	// FREE!!!
 	game->walls_arr = malloc(sizeof(double) * WIN_WIDTH);
+	game->tex_pos_x_arr = malloc(sizeof(int) * WIN_WIDTH);
 	return (0);
 }

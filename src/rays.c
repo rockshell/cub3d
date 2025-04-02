@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/04/01 20:05:52 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/02 17:27:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ void	ray_casting(t_game *game)
 		}
 		ray_dist = sqrt(pow(curr_ray.ray_x - game->plr_pos_x, 2.0)
 				+ pow(curr_ray.ray_y - game->plr_pos_y, 2.0));
-		ray_distance = fix_fisheye(game, ray_distance, ray_angle);
-		game->walls_arr[ray_count] = ray_distance;
+		ray_dist = fix_fisheye(game, ray_dist, ray_angle);
+		
+		game->walls_arr[ray_count] = ray_dist;
+		game->tex_pos_x_arr[ray_count] = (int) floor(32 * (curr_ray.ray_x + curr_ray.ray_y)) % 32;
 		ray_angle += (double) FOV / WIN_WIDTH;
 	}
 }
