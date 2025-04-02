@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/02 17:48:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/02 22:45:16 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	put_column(t_game *game, mlx_image_t *frame, int width)
 	distance = game->walls_arr[width];
 	tex_pos_x = game->tex_pos_x_arr[width];
 	wall_height = floor(HALF_HEIGHT / distance);
-	wall_start = HALF_HEIGHT - wall_height;
+	wall_start = HALF_HEIGHT - wall_height / 2;
 	wall_end = WIN_HEIGHT - wall_start;
 
 	// int y_incrementer = wall_height / 32;
@@ -67,7 +67,8 @@ void	put_column(t_game *game, mlx_image_t *frame, int width)
 	{
 		if (height >= wall_start && height <= wall_end)
 		{
-			pixel = get_pixel_color(game, distance, tex_pos_x, (int) ((height - wall_height) / 32 ));
+			int tex_y = (int) ((height - wall_start) / wall_height * 32);
+			pixel = get_pixel_color(game, distance, tex_pos_x, tex_y);
 			// mlx_put_pixel(frame, width, height, 0xFF000000);
 			
 			mlx_put_pixel(frame, width, height, pixel);
