@@ -25,17 +25,21 @@ static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 	{
 		game->plr_angle -= 1;
 		if (game->plr_angle == -1)
-			game->plr_angle = 360;
+			game->plr_angle = 359;
 		printf("Player's angle of view: %i\n", game->plr_angle);
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
 	{
 		game->plr_angle += 1;
-		if (game->plr_angle == 361)
+		if (game->plr_angle == 360)
 			game->plr_angle = 0;
 		printf("Player's angle of view: %i\n", game->plr_angle);
 	}
 	
+// =======
+// 		game->plr_angle -= 2;
+// 	if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
+// 		game->plr_angle += 2;
 }
 
 int	test_new_position(t_game *game, mlx_key_data_t keydata)

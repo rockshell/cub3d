@@ -42,11 +42,11 @@ void	init_assets(t_game *game)
 int	get_player_angle(char direction)
 {
 	if (direction == 'N')
-		return(270);
+		return(90);
 	else if (direction == 'E')
 		return(0);
 	else if (direction == 'S')
-		return(90);
+		return(270);
 	else if (direction == 'W')
 		return(180);
 	return (-1);

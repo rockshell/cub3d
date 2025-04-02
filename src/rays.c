@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   rays.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
 /*   Updated: 2025/04/01 20:05:52 by arch             ###   ########.fr       */
@@ -16,7 +16,7 @@ int	hit_the_wall(t_ray ray, t_game *game)
 {
 	int	map_x;
 	int	map_y;
-	
+ 
 	map_x = (int)(ray.ray_x);
 	map_y = (int)(ray.ray_y);
 	if (game->map[map_y][map_x] == '1')
@@ -43,7 +43,7 @@ void	ray_casting(t_game *game)
 {
 	int		ray_count;
 	double	ray_angle;
-	double	ray_distance;
+	double	ray_dist;
 	t_ray	curr_ray;
 
 	ray_count = -1;
@@ -59,7 +59,7 @@ void	ray_casting(t_game *game)
 			curr_ray.ray_x += curr_ray.ray_cos;
 			curr_ray.ray_y += curr_ray.ray_sin;
 		}
-		ray_distance = sqrt(pow(curr_ray.ray_x - game->plr_pos_x, 2.0)
+		ray_dist = sqrt(pow(curr_ray.ray_x - game->plr_pos_x, 2.0)
 				+ pow(curr_ray.ray_y - game->plr_pos_y, 2.0));
 		ray_distance = fix_fisheye(game, ray_distance, ray_angle);
 		game->walls_arr[ray_count] = ray_distance;
