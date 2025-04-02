@@ -3,38 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 21:14:52 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/02 17:48:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+
+uint32_t get_pixel_color(t_game *game, double distance, int x, int y)
+{
+	int index = 0;
+	uint32_t red = 0x00;
+	uint32_t green = 0x00;
+	uint32_t blue = 0x00;
+	uint32_t alpha = 0x00;
+	uint32_t color;
+	
+	// (void) y;
+	int width = game->assets->s_image->width;
+	// int height = game->assets->s_image->height;
+	double k_depth = 1.0 / (1.0 + distance * 0.05);
+	
+	index = (y * width + x ) * 4 ;
+	red = ((uint8_t) (game->assets->s_image->pixels[index] * k_depth)) << 24;
+	green = ((uint8_t) (game->assets->s_image->pixels[index + 1] * k_depth)) << 16;
+	blue = ((uint8_t) (game->assets->s_image->pixels[index + 2] * k_depth)) << 8;
+	alpha = game->assets->s_image->pixels[index + 3];
+	color = red | green | blue | alpha;
+	return (color);
+}
 
 void	put_column(t_game *game, mlx_image_t *frame, int width)
 {
 	int height;
 	int wall_start;
 	int wall_end;
+	int tex_pos_x;
 	double distance;
 	double wall_height;
+	uint32_t pixel;
 
 	height = -1;
 	distance = game->walls_arr[width];
+	tex_pos_x = game->tex_pos_x_arr[width];
 	wall_height = floor(HALF_HEIGHT / distance);
 	wall_start = HALF_HEIGHT - wall_height;
 	wall_end = WIN_HEIGHT - wall_start;
+
+	// int y_incrementer = wall_height / 32;
+	
 	while (++height < WIN_HEIGHT)
 	{
 		if (height < wall_start)
 			mlx_put_pixel(frame, width, height, game->ceil_color);
-		else if (height >= wall_start && height <= wall_end)
-			mlx_put_pixel(frame, width, height, 0xFF000000);
 		else if (height > wall_end)
 			mlx_put_pixel(frame, width, height, game->floor_color);
 	}
+	height = -1;
+	while (++height < WIN_HEIGHT)
+	{
+		if (height >= wall_start && height <= wall_end)
+		{
+			pixel = get_pixel_color(game, distance, tex_pos_x, (int) ((height - wall_height) / 32 ));
+			// mlx_put_pixel(frame, width, height, 0xFF000000);
+			
+			mlx_put_pixel(frame, width, height, pixel);
+		}
+	}
 }
+
+
 
 mlx_image_t	*render_frame(t_game *game)
 {
@@ -46,35 +87,7 @@ mlx_image_t	*render_frame(t_game *game)
 	while (++i < WIN_WIDTH)
 	{
 		put_column(game, frame, i);
-// =======
-// 	int		y;
-// 	double	wall_height;
 
-// 	int index = 0;
-// 	uint32_t red = 0x00;
-// 	uint32_t green = 0x00;
-// 	uint32_t blue = 0x00;
-// 	uint32_t alpha = 0x00;
-// 	uint32_t color;
-
-// 	int height = game->assets->s_image->height;
-// 	int width = game->assets->s_image->width;
-// 	double k_depth = 1.0 / (1.0 + distance * 0.05);
-	
-// 	wall_height = floor(HALF_HEIGHT / distance);
-// 	y = HALF_HEIGHT - (wall_height / 2);
-
-// 	while (y < HALF_HEIGHT + (wall_height / 2))
-// 	{
-// 		index = ((y % height) * width + (x % width)) * 4 ;
-// 		red = ((uint8_t)(game->assets->s_image->pixels[index] * k_depth)) << 24;
-// 		green = ((uint8_t)(game->assets->s_image->pixels[index + 1] * k_depth))<< 16;
-// 		blue = ((uint8_t)(game->assets->s_image->pixels[index + 2] * k_depth)) << 8;
-// 		alpha = game->assets->s_image->pixels[index + 3];
-// 		color = red | green | blue | alpha;
-// 		mlx_put_pixel(game->img, x, y, color);
-// 		y++;
-// >>>>>>> main
 	}
 	return (frame);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   controls.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 20:45:28 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/02 16:29:26 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_LEFT && key_pressed(keydata))
 	{
-		game->plr_angle -= 1;
-		if (game->plr_angle == -1)
-			game->plr_angle = 359;
+		game->plr_angle -= 2;
+		if (game->plr_angle == 0)
+			game->plr_angle = 360;
 		printf("Player's angle of view: %i\n", game->plr_angle);
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
 	{
-		game->plr_angle += 1;
-		if (game->plr_angle == 360)
-			game->plr_angle = 0;
+		game->plr_angle = (game->plr_angle % 360) + 2;
+		// if (game->plr_angle == 360)
+		// 	game->plr_angle = 0;
 		printf("Player's angle of view: %i\n", game->plr_angle);
 	}
 	

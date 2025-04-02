@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 21:02:36 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/02 16:14:18 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		720
-# define WIN_HEIGHT		576
+# define WIN_WIDTH		1920
+# define WIN_HEIGHT		1080
 # define HALF_HEIGHT	(WIN_HEIGHT / 2)
 # define FOV			60
 # define HALF_FOV		(FOV / 2)
@@ -78,7 +78,8 @@ typedef struct s_game
 	mlx_image_t	*img;
 	mlx_image_t *prev_frame;
 	t_assets	*assets;
-	double			*walls_arr;
+	double		*walls_arr;
+	int			*tex_pos_x_arr;
 }	t_game;
 
 
