@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 00:55:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:32:02 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		1920
-# define WIN_HEIGHT		1080
+# define WIN_WIDTH		720
+# define WIN_HEIGHT		576
 # define HALF_HEIGHT	(WIN_HEIGHT / 2)
 # define FOV			60
 # define HALF_FOV		(FOV / 2)
 # define PREC			1000
-# define TILE_SIZE		64
+// # define TILE_SIZE		64
 
 enum	e_side
 {
