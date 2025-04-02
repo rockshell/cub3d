@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 12:55:30 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 15:53:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ int	init_struct(t_game *game)
 int	get_player_angle(char direction)
 {
 	if (direction == 'N')
-		return(270);
+		return(90);
 	else if (direction == 'E')
 		return(0);
 	else if (direction == 'S')
-		return(90);
+		return(270);
 	else if (direction == 'W')
 		return(180);
 	return (-1);

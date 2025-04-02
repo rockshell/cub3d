@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 12:53:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/02 14:02:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,20 @@ void	draw_wall(double distance, int x, t_game *game)
 
 	int height = game->assets->s_image->height;
 	int width = game->assets->s_image->width;
-
-
+	double k_depth = 1.0 / (1.0 + distance * 0.05);
+	
 	wall_height = floor(HALF_HEIGHT / distance);
 	y = HALF_HEIGHT - (wall_height / 2);
-
-	// int y_increment = wall_height / height;
 
 	while (y < HALF_HEIGHT + (wall_height / 2))
 	{
 		index = ((y % height) * width + (x % width)) * 4 ;
-		red = game->assets->s_image->pixels[index] << 24;
-		green = game->assets->s_image->pixels[index + 1] << 16;
-		blue = game->assets->s_image->pixels[index + 2] << 8;
+		red = ((uint8_t)(game->assets->s_image->pixels[index] * k_depth)) << 24;
+		green = ((uint8_t)(game->assets->s_image->pixels[index + 1] * k_depth))<< 16;
+		blue = ((uint8_t)(game->assets->s_image->pixels[index + 2] * k_depth)) << 8;
 		alpha = game->assets->s_image->pixels[index + 3];
 		color = red | green | blue | alpha;
 		mlx_put_pixel(game->img, x, y, color);
-		// y += y_increment;
 		y++;
 	}
 }

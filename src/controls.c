@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/26 19:58:17 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:56:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ static bool	key_pressed(mlx_key_data_t keydata)
 static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 {
 	if (keydata.key == MLX_KEY_LEFT && key_pressed(keydata))
-		game->plr_angle -= 1;
+		game->plr_angle -= 2;
 	if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
-		game->plr_angle += 1;
+		game->plr_angle += 2;
 }
 
 static void	move_controls(t_game *game, mlx_key_data_t keydata)
