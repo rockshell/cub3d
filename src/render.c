@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/06 16:12:25 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 16:18:12 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,8 @@ void	put_column(t_game *game, mlx_image_t *frame, int width)
 	uint32_t pixel;
 	mlx_image_t *wall_image;
 
-	if (game->plr_angle >= 45 && game->plr_angle < 135)
-		wall_image = game->assets->n_image;
-	else
-		wall_image = game->assets->s_image;
-
+	wall_image = game->assets->s_image;
+	
 	distance = game->walls_arr[width];
 	tex_pos_x = game->tex_pos_x_arr[width];
 	wall_height = floor(HALF_HEIGHT / distance);
