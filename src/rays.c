@@ -39,6 +39,21 @@ double	fix_fisheye(t_game *game, double distance, double ray_angle)
 	return (corrected_distance);
 }
 
+int	get_side(double ray_angle)
+{
+	int	angle;
+
+	angle = (int)ray_angle;
+	if (angle > 45 + HALF_FOV && angle <= 135 - HALF_FOV)
+		return (0);
+	else
+		return (1);
+	// else if (angle > 315 || angle <= 45)
+	// 	return (2);
+	// else if (angle > 135 && angle <= 225)
+	// 	return (3);
+}
+
 void	ray_casting(t_game *game)
 {
 	int		ray_count;
@@ -63,7 +78,8 @@ void	ray_casting(t_game *game)
 				+ pow(curr_ray.ray_y - game->plr_pos_y, 2.0));
 		ray_dist = fix_fisheye(game, ray_dist, ray_angle);
 		
-		game->walls_arr[ray_count] = ray_dist;
+		game->walls->walls_arr[ray_count] = ray_dist;
+		game->walls->side[ray_count] = get_side(ray_angle);
 		game->tex_pos_x_arr[ray_count] = (int) floor(32 * (curr_ray.ray_x + curr_ray.ray_y)) % 32;
 		ray_angle += (double) FOV / WIN_WIDTH;
 	}

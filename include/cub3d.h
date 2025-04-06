@@ -61,6 +61,12 @@ typedef struct s_assets
 	mlx_image_t		*e_image;
 }	t_assets;
 
+typedef struct s_walls
+{
+	double	*walls_arr;
+	int		*side;
+}	t_walls;
+
 typedef struct s_game
 {
 	char		**texture_path_nsew;
@@ -77,7 +83,8 @@ typedef struct s_game
 	mlx_image_t	*img;
 	mlx_image_t *prev_frame;
 	t_assets	*assets;
-	double		*walls_arr;
+	// double		*walls_arr;
+	t_walls		*walls;
 	int			*tex_pos_x_arr;
 }	t_game;
 
