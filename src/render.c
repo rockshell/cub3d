@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/02 22:45:16 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:13:17 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ uint32_t get_pixel_color(t_game *game, double distance, int x, int y)
 	uint32_t alpha = 0x00;
 	uint32_t color;
 	
-	// (void) y;
 	int width = game->assets->s_image->width;
-	// int height = game->assets->s_image->height;
 	double k_depth = 1.0 / (1.0 + distance * 0.05);
 	
 	index = (y * width + x ) * 4 ;
@@ -46,15 +44,13 @@ void	put_column(t_game *game, mlx_image_t *frame, int width)
 	double wall_height;
 	uint32_t pixel;
 
-	height = -1;
 	distance = game->walls_arr[width];
 	tex_pos_x = game->tex_pos_x_arr[width];
 	wall_height = floor(HALF_HEIGHT / distance);
 	wall_start = HALF_HEIGHT - wall_height / 2;
 	wall_end = WIN_HEIGHT - wall_start;
-
-	// int y_incrementer = wall_height / 32;
 	
+	height = -1;
 	while (++height < WIN_HEIGHT)
 	{
 		if (height < wall_start)
@@ -67,16 +63,12 @@ void	put_column(t_game *game, mlx_image_t *frame, int width)
 	{
 		if (height >= wall_start && height <= wall_end)
 		{
-			int tex_y = (int) ((height - wall_start) / wall_height * 32);
-			pixel = get_pixel_color(game, distance, tex_pos_x, tex_y);
-			// mlx_put_pixel(frame, width, height, 0xFF000000);
-			
+			int tex_pos_y = (int) ((height - wall_start) / wall_height * 32);
+			pixel = get_pixel_color(game, distance, tex_pos_x, tex_pos_y);			
 			mlx_put_pixel(frame, width, height, pixel);
 		}
 	}
 }
-
-
 
 mlx_image_t	*render_frame(t_game *game)
 {

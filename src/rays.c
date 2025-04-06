@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/04/02 17:27:53 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:18:17 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	ray_casting(t_game *game)
 		curr_ray.ray_y = game->plr_pos_y;
 		curr_ray.ray_cos = cos(deg_to_rad(ray_angle)) / PREC;
 		curr_ray.ray_sin = sin(deg_to_rad(ray_angle)) / PREC;
+		if ((deg_to_rad(ray_angle)) > 90)
+			printf("ray angle: %lf\n", deg_to_rad(ray_angle));
 		while (!hit_the_wall(curr_ray, game))
 		{
 			curr_ray.ray_x += curr_ray.ray_cos;
