@@ -32,7 +32,10 @@ int	init_struct(t_game *game)
 	game->map = NULL;
 	game->prev_frame = NULL;
 	// FREE!!!
-	game->walls_arr = malloc(sizeof(double) * WIN_WIDTH);
+	// game->walls_arr = malloc(sizeof(double) * WIN_WIDTH);
+	game->walls = malloc(sizeof(t_walls));
+	game->walls->side = malloc(sizeof(int) * WIN_WIDTH);
+	game->walls->walls_arr = malloc(sizeof(double) * WIN_WIDTH);
 	game->tex_pos_x_arr = malloc(sizeof(int) * WIN_WIDTH);
 	return (0);
 }
