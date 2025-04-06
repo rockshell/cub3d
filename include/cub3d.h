@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/02 16:14:18 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:45:52 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,8 @@
 # define WIN_HEIGHT		1080
 # define HALF_HEIGHT	(WIN_HEIGHT / 2)
 # define FOV			60
-# define HALF_FOV		(FOV / 2)
+# define HALF_FOV		30
 # define PREC			1000
-// # define TILE_SIZE		64
 
 enum	e_side
 {
