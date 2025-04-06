@@ -21,14 +21,14 @@ SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 OBJS		:=	${SRCS:.c=.o}
 
 
-all: $(LIBMLX) $(NAME)
+all: $(LIBMLX) $(LIBFT) $(NAME)
 
 libmlx:
 	@cmake $(LIBMLXDIR) -B $(LIBMLXDIR)/build && make -C $(LIBMLXDIR)/build -j4
 
-# $(LIBFT):
-# 	@echo "Building libft..."
-# 	@$(MAKE) -C $(LIBFT_DIR)
+$(LIBFT):
+	@echo "Building libft..."
+	@$(MAKE) -C $(LIBFT_DIR)
 
 %.o: %.c
 	@echo "Compiling $< to $@..."
@@ -42,7 +42,7 @@ $(NAME): $(OBJS) $(LIBS)
 clean:
 	@echo "Cleaning object files..."
 	@rm -f $(OBJS)
-#	 @rm -rf $(LIBFT)
+	 @rm -rf $(LIBFT)
 	@rm -rf $(LIBMLX)/build
 
 fclean: clean

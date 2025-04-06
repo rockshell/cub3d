@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/02 16:29:26 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 15:53:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 	if (keydata.key == MLX_KEY_LEFT && key_pressed(keydata))
 	{
 		game->plr_angle -= 2;
-		if (game->plr_angle == 0)
-			game->plr_angle = 360;
+		if (game->plr_angle == -2)
+			game->plr_angle = 358;
 		printf("Player's angle of view: %i\n", game->plr_angle);
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && key_pressed(keydata))
