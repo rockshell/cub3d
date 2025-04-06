@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 00:01:59 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 21:46:15 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	free_game(t_game *game)
 	}
 	if (game->assets)
 		free(game->assets);
+	free(game->walls->side);
+	free(game->walls->walls_arr);
+	free(game->walls);
+	free(game->tex_pos_x_arr);
 	free(game);
 }
 
