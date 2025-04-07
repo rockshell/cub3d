@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/06 18:00:18 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/06 22:08:07 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		640
-# define WIN_HEIGHT		480
+# define WIN_WIDTH		1920
+# define WIN_HEIGHT		1080
 # define HALF_HEIGHT	(WIN_HEIGHT / 2)
 # define FOV			60
 # define HALF_FOV		30
