@@ -1,8 +1,7 @@
-NO      ./assets/bluestone.xpm    
-SO      ./assets/colorstone.xpm
-
-EA      ./assets/purplestone.xpm     
-WE      ./assets/redbrick.xpm    
+NO      ./assets/north.png
+SO      ./assets/south.png
+EA      ./assets/east.png
+WE      ./assets/west.png  
 
 C       87,170,230
 F       145,132,62
