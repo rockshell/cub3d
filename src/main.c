@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: arch <arch@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/01 20:23:10 by arch             ###   ########.fr       */
+/*   Updated: 2025/04/09 00:23:01 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	init_assets(t_game *game)
 int	get_player_angle(char direction)
 {
 	if (direction == 'N')
-		return(90);
+		return(270);
 	else if (direction == 'E')
 		return(0);
 	else if (direction == 'S')
-		return(270);
+		return(90);
 	else if (direction == 'W')
 		return(180);
 	return (-1);

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/04/08 16:30:43 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 01:49:32 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,22 @@ double	fix_fisheye(t_game *game, double distance, double ray_angle)
 
 int get_side(t_ray curr_ray)
 {
-	enum e_side side;
-	// Calculate how far we are from the cell edges
-	double dist_from_left = curr_ray.ray_x - (int)curr_ray.ray_x;
-	double dist_from_top = curr_ray.ray_y - (int)curr_ray.ray_y;	
-	// These small values mean we're very close to an edge
-	double threshold_min = 0.001;
-	double threshold_max = 1 - threshold_min;
-	if (dist_from_left < threshold_min && dist_from_left > dist_from_top)
-		side = WE;
-	else if (dist_from_left >= threshold_max)
-		side = EA;
-	else if (dist_from_top < threshold_min)
-		side = NO;
-	else if (dist_from_top > threshold_max)
-		side = SO;
-	return (side);
+	// enum e_side side = WE;
+	double	delta_x;
+	double	delta_y;
+	double	threshold_min = 0.001;
+
+	delta_x = curr_ray.ray_x - (int)curr_ray.ray_x;
+	delta_y = curr_ray.ray_y - (int)curr_ray.ray_y;
+	if (delta_y < threshold_min)
+		return (NO);
+	else if (delta_y > 1 - threshold_min)
+		return (SO);
+	else if (delta_x < threshold_min)
+		return (WE);
+	else if (delta_x > 1 - threshold_min)
+		return (EA);
+	return (-1);
 }
 
 void	ray_casting(t_game *game)
