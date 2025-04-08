@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/06 21:49:17 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 00:29:44 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ uint32_t get_pixel_color(mlx_image_t *wall_image, double distance, int x, int y)
 	int width = wall_image->width;
 	double k_depth = 1.0 / (1.0 + distance * 0.05);
 	
-	index = (y * width + x ) * 4 ;
+	index = (y * width + x) * 4 ;
 	red = ((uint8_t) (wall_image->pixels[index] * k_depth)) << 24;
 	green = ((uint8_t) (wall_image->pixels[index + 1] * k_depth)) << 16;
 	blue = ((uint8_t) (wall_image->pixels[index + 2] * k_depth)) << 8;
