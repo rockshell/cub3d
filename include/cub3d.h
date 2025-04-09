@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 00:13:24 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 19:59:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		1920
-# define WIN_HEIGHT		1080
-# define HALF_HEIGHT	(WIN_HEIGHT / 2)
+# define WIN_WIDTH		1280
+# define WIN_HEIGHT		720
+# define HALF_HEIGHT	360
 # define FOV			60
 # define HALF_FOV		30
 # define PREC			1000
@@ -53,14 +53,6 @@ typedef struct s_ray
 	double	ray_cos;
 }	t_ray;
 
-typedef struct s_assets
-{
-	mlx_image_t		*n_image;
-	mlx_image_t		*s_image;
-	mlx_image_t		*w_image;
-	mlx_image_t		*e_image;
-}	t_assets;
-
 typedef struct s_walls
 {
 	double	*walls_arr;
@@ -81,13 +73,12 @@ typedef struct s_game
 	char		start_dir;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	mlx_image_t *prev_frame;
-	t_assets	*assets;
-	// double		*walls_arr;
+	mlx_image_t	*prev_frame;
+	mlx_image_t	*image[4];
 	t_walls		*walls;
 	int			*tex_pos_x_arr;
+	int			tex_width;
 }	t_game;
-
 
 typedef struct s_error
 {
@@ -96,24 +87,28 @@ typedef struct s_error
 	int		fd;
 }	t_error;
 
-//init
-int	init_struct(t_game *game);
+//init.c
+int		init_struct(t_game *game);
+void	init_assets(t_game *game);
 
+// player.c
+void	init_player(t_game *game);
 
 //readmap
-char	*get_next_line(int fd);
 int		read_map(int argc, char *filepath, t_game *game);
 
 //render.c
 void	render_game(void *param);
-void	draw_wall(double distance, int width, t_game *game);
 
 // controls.c
 void	all_keyhooks(mlx_key_data_t keydata, void *param);
 
-/* utils.c */
+// utils.c
 int		cube_atoi(const char *nptr);
+double	deg_to_rad(double degree);
+int		get_text_x_pos(t_game *game, t_ray curr_ray);
 
+// cleanup.c
 void	free_game(t_game *game);
 void	free_exit(t_error error_s);
 
@@ -124,7 +119,6 @@ void	ft_mlxerror(t_game *game);
 
 //rays.c
 void	ray_casting(t_game *game);
-double	deg_to_rad(double degree);
 int		hit_the_wall(t_ray ray, t_game *game);
 
 #endif

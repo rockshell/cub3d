@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 16:17:54 by arch              #+#    #+#             */
-/*   Updated: 2025/04/09 01:49:32 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 18:43:12 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	hit_the_wall(t_ray ray, t_game *game)
 {
 	int	map_x;
 	int	map_y;
- 
+
 	map_x = (int)(ray.ray_x);
 	map_y = (int)(ray.ray_y);
 	if (game->map[map_y][map_x] == '1')
@@ -24,9 +24,12 @@ int	hit_the_wall(t_ray ray, t_game *game)
 	return (0);
 }
 
-double	deg_to_rad(double degree)
+void	curr_ray_init(t_ray *curr_ray, t_game *game, double ray_angle)
 {
-	return (degree * M_PI / 180);
+	curr_ray->ray_x = game->plr_pos_x;
+	curr_ray->ray_y = game->plr_pos_y;
+	curr_ray->ray_cos = cos(deg_to_rad(ray_angle)) / PREC;
+	curr_ray->ray_sin = sin(deg_to_rad(ray_angle)) / PREC;
 }
 
 double	fix_fisheye(t_game *game, double distance, double ray_angle)
@@ -39,13 +42,13 @@ double	fix_fisheye(t_game *game, double distance, double ray_angle)
 	return (corrected_distance);
 }
 
-int get_side(t_ray curr_ray)
+int	get_side(t_ray curr_ray)
 {
-	// enum e_side side = WE;
 	double	delta_x;
 	double	delta_y;
-	double	threshold_min = 0.001;
+	double	threshold_min;
 
+	threshold_min = 0.001;
 	delta_x = curr_ray.ray_x - (int)curr_ray.ray_x;
 	delta_y = curr_ray.ray_y - (int)curr_ray.ray_y;
 	if (delta_y < threshold_min)
@@ -70,10 +73,7 @@ void	ray_casting(t_game *game)
 	ray_angle = (double) game->plr_angle - HALF_FOV;
 	while (++ray_count < WIN_WIDTH)
 	{
-		curr_ray.ray_x = game->plr_pos_x;
-		curr_ray.ray_y = game->plr_pos_y;
-		curr_ray.ray_cos = cos(deg_to_rad(ray_angle)) / PREC;
-		curr_ray.ray_sin = sin(deg_to_rad(ray_angle)) / PREC;
+		curr_ray_init(&curr_ray, game, ray_angle);
 		while (!hit_the_wall(curr_ray, game))
 		{
 			curr_ray.ray_x += curr_ray.ray_cos;
@@ -84,7 +84,7 @@ void	ray_casting(t_game *game)
 		ray_dist = fix_fisheye(game, ray_dist, ray_angle);
 		game->walls->walls_arr[ray_count] = ray_dist;
 		game->walls->side[ray_count] = get_side(curr_ray);
-		game->tex_pos_x_arr[ray_count] = (int) floor(32 * (curr_ray.ray_x + curr_ray.ray_y)) % 32;
+		game->tex_pos_x_arr[ray_count] = get_text_x_pos(game, curr_ray);
 		ray_angle += (double) FOV / WIN_WIDTH;
 	}
 }

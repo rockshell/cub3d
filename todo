@@ -1,0 +1,21 @@
+1. NORM
+
+controls.c
+parsing.c
+render.c
+
+cleanup.c +
+error.c +
+init.c +
+main.c +
+player.c + 
+rays.c +
+utils.c + 
+
+cub3d.h +
+
+2. PARSING corner w-spaces
+
+3. MOUSE-MOVE
+
+4. VALGRIND

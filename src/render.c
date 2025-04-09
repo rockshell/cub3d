@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 00:29:44 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 17:13:50 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,22 +68,22 @@ void	put_column(t_game *game, mlx_image_t *frame, int width, mlx_image_t *wall_i
 
 mlx_image_t	*render_frame(t_game *game)
 {
-	int	i;
-	mlx_image_t *frame;
-	mlx_image_t *wall_image;
+	int			i;
+	mlx_image_t	*frame;
+	mlx_image_t	*wall_image;
 
 	i = -1;
 	frame = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
 	while (++i < WIN_WIDTH)
 	{
 		if (game->walls->side[i] == 0)
-			wall_image = game->assets->n_image;
+			wall_image = game->image[NO];
 		else if (game->walls->side[i] == 1)
-			wall_image = game->assets->s_image;
+			wall_image = game->image[SO];
 		else if (game->walls->side[i] == 2)
-			wall_image = game->assets->e_image;
+			wall_image = game->image[EA];
 		else
-			wall_image = game->assets->w_image;
+			wall_image = game->image[WE];
 		put_column(game, frame, i, wall_image);
 	}
 	return (frame);
