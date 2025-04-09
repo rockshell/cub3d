@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 17:26:54 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:24:41 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	move_controls(t_game *game, mlx_key_data_t keydata)
 }
 	
 
-void	all_keyhooks(mlx_key_data_t keydata, void *param)
+void	key_hooks(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;
 
@@ -102,4 +102,27 @@ void	all_keyhooks(mlx_key_data_t keydata, void *param)
 	move_controls(game, keydata);
 	if (keydata.key == MLX_KEY_ESCAPE && key_pressed(keydata))
 		mlx_close_window(game->mlx);
+}
+
+void	cursor_hook(double xpos, double ypos, void* param)
+{
+	t_game *game;
+	(void) ypos;
+	int32_t		x;
+	int32_t		y;
+	
+	game = (t_game *) param;
+	
+	mlx_get_mouse_pos(game->mlx, &x, &y);
+	game->cursr_last_x = x;
+	game->cursr_last_y = y;
+	int turn_ratio = 1;
+	if (xpos > (double) game->cursr_last_x)
+	{
+		game->plr_angle -= turn_ratio;
+		if (game->plr_angle == -turn_ratio)
+			game->plr_angle = 360 - turn_ratio;
+	}
+	else if (xpos < (double) game->cursr_last_x)
+		game->plr_angle = (game->plr_angle % 360) + turn_ratio;
 }

@@ -16,6 +16,11 @@ cub3d.h +
 
 2. PARSING corner w-spaces
 
-3. MOUSE-MOVE
-
+3. CONTROLS
+	- MOUSE-MOVE
+	- On ESCAPE: munmap_chunk(): invalid pointer
+[1]    77219 IOT instruction (core dumped)  ./cub3d maps/big_map.cub
 4. VALGRIND
+
+5. Callback function used to handle window resizing.
+

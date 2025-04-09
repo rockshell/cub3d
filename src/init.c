@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:42:06 by arch              #+#    #+#             */
-/*   Updated: 2025/04/09 19:03:57 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:25:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	init_struct(t_game *game)
 	game->floor_color = 0;
 	game->plr_pos_x = 0.0;
 	game->plr_pos_y = 0.0;
+	game->cursr_last_x = 0;
+	game->cursr_last_y = 0;
 	game->map = NULL;
 	game->prev_frame = NULL;
 	game->walls = malloc(sizeof(t_walls));
