@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 17:13:50 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/09 22:23:20 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,11 @@ mlx_image_t	*render_frame(t_game *game)
 	return (frame);
 }
 
+
 void	render_game(void *param)
 {
-	t_game	*game;
-	mlx_image_t *current_frame;
+	t_game		*game;
+	mlx_image_t	*current_frame;
 
 	game = (t_game *)param;
 	ray_casting(game);
@@ -101,5 +102,4 @@ void	render_game(void *param)
 	if (game->prev_frame)
 		mlx_delete_image(game->mlx, game->prev_frame);
 	game->prev_frame = current_frame;
-	mlx_key_hook(game->mlx, all_keyhooks, game);
 }
