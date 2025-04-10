@@ -1,6 +1,7 @@
 NAME		:=	cub3d
 
-CFLAGS		:=	-Wextra -Wall -Werror -g -Ofast -flto
+
+CFLAGS		:=	-Wextra -Wall -Werror -Ofast
 LDFLAGS		:=	-lreadline
 
 HEADERS		:=	-I ./include -I $(LIBMLX)/include
