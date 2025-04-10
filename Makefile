@@ -27,6 +27,7 @@ $(LIBMLX):
 
 $(LIBFT):
 	@echo "Building libft..."
+	@mkdir -p lib
 	@$(MAKE) -C $(LIBFT_DIR)
 
 %.o: %.c
