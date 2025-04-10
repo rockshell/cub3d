@@ -1,0 +1,117 @@
+==34821== Memcheck, a memory error detector
+==34821== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==34821== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==34821== Command: ./cub3d maps/simple_map.cub
+==34821== Parent PID: 25792
+==34821== 
+==34821== Invalid read of size 8
+==34821==    at 0x40286A8: strncmp (strcmp.S:172)
+==34821==    by 0x400668D: is_dst (dl-load.c:216)
+==34821==    by 0x400810E: _dl_dst_count (dl-load.c:253)
+==34821==    by 0x400810E: expand_dynamic_string_token (dl-load.c:395)
+==34821==    by 0x40082B7: fillin_rpath.isra.0 (dl-load.c:483)
+==34821==    by 0x4008602: decompose_rpath (dl-load.c:654)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==34821==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==34821==    by 0x4003494: openaux (dl-deps.c:64)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==34821==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==34821==  Address 0x4eca9e9 is 9 bytes inside a block of size 15 alloc'd
+==34821==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34821==    by 0x40271DF: malloc (rtld-malloc.h:56)
+==34821==    by 0x40271DF: strdup (strdup.c:42)
+==34821==    by 0x4008594: decompose_rpath (dl-load.c:629)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==34821==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==34821==    by 0x4003494: openaux (dl-deps.c:64)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==34821==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400E34D: _dl_open (dl-open.c:883)
+==34821== 
+==34821== Invalid read of size 8
+==34821==    at 0x40286A8: strncmp (strcmp.S:172)
+==34821==    by 0x400668D: is_dst (dl-load.c:216)
+==34821==    by 0x4007F79: _dl_dst_substitute (dl-load.c:295)
+==34821==    by 0x40082B7: fillin_rpath.isra.0 (dl-load.c:483)
+==34821==    by 0x4008602: decompose_rpath (dl-load.c:654)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==34821==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==34821==    by 0x4003494: openaux (dl-deps.c:64)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==34821==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==34821==  Address 0x4eca9e9 is 9 bytes inside a block of size 15 alloc'd
+==34821==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34821==    by 0x40271DF: malloc (rtld-malloc.h:56)
+==34821==    by 0x40271DF: strdup (strdup.c:42)
+==34821==    by 0x4008594: decompose_rpath (dl-load.c:629)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:696)
+==34821==    by 0x400ABF5: cache_rpath (dl-load.c:677)
+==34821==    by 0x400ABF5: _dl_map_object (dl-load.c:2165)
+==34821==    by 0x4003494: openaux (dl-deps.c:64)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x4003C7B: _dl_map_object_deps (dl-deps.c:248)
+==34821==    by 0x400EA0E: dl_open_worker_begin (dl-open.c:592)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400E34D: _dl_open (dl-open.c:883)
+==34821== 
+==34821== 
+==34821== HEAP SUMMARY:
+==34821==     in use at exit: 313,815 bytes in 3,070 blocks
+==34821==   total heap usage: 74,953 allocs, 71,883 frees, 65,493,052 bytes allocated
+==34821== 
+==34821== 0 bytes in 1 blocks are definitely lost in loss record 1 of 2,234
+==34821==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34821==    by 0x4005A22: malloc (rtld-malloc.h:56)
+==34821==    by 0x4005A22: _dl_find_object_update (dl-find_object.c:791)
+==34821==    by 0x400ECCF: dl_open_worker_begin (dl-open.c:735)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400DF99: dl_open_worker (dl-open.c:782)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x400E34D: _dl_open (dl-open.c:883)
+==34821==    by 0x4A4A63B: dlopen_doit (dlopen.c:56)
+==34821==    by 0x4B2EA97: _dl_catch_exception (dl-error-skeleton.c:208)
+==34821==    by 0x4B2EB62: _dl_catch_error (dl-error-skeleton.c:227)
+==34821==    by 0x4A4A12D: _dlerror_run (dlerror.c:138)
+==34821==    by 0x4A4A6C7: dlopen_implementation (dlopen.c:71)
+==34821==    by 0x4A4A6C7: dlopen@@GLIBC_2.34 (dlopen.c:81)
+==34821== 
+==34821== 80 (16 direct, 64 indirect) bytes in 1 blocks are definitely lost in loss record 2,191 of 2,234
+==34821==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==34821==    by 0x60DEA8F: ??? (in /usr/lib/x86_64-linux-gnu/dri/vmwgfx_dri.so)
+==34821==    by 0x64DAD31: ??? (in /usr/lib/x86_64-linux-gnu/dri/vmwgfx_dri.so)
+==34821==    by 0x5C0ADD5: ??? (in /usr/lib/x86_64-linux-gnu/dri/vmwgfx_dri.so)
+==34821==    by 0x5B46C19: ??? (in /usr/lib/x86_64-linux-gnu/dri/vmwgfx_dri.so)
+==34821==    by 0x5B4A660: ??? (in /usr/lib/x86_64-linux-gnu/dri/vmwgfx_dri.so)
+==34821==    by 0x5986338: ???
+==34821==    by 0x5970120: ???
+==34821==    by 0x5929A83: ???
+==34821==    by 0x487DC7C: glfwCreateWindow (in /usr/lib/x86_64-linux-gnu/libglfw.so.3.3)
+==34821==    by 0x10E233: mlx_init (in /home/mmaksimo/42/cub3d/cub3d)
+==34821==    by 0x10B135: main (main.c:26)
+==34821== 
+==34821== LEAK SUMMARY:
+==34821==    definitely lost: 16 bytes in 2 blocks
+==34821==    indirectly lost: 64 bytes in 1 blocks
+==34821==      possibly lost: 304 bytes in 2 blocks
+==34821==    still reachable: 313,431 bytes in 3,065 blocks
+==34821==         suppressed: 0 bytes in 0 blocks
+==34821== Reachable blocks (those to which a pointer was found) are not shown.
+==34821== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==34821== 
+==34821== For lists of detected and suppressed errors, rerun with: -s
+==34821== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 0 from 0)
