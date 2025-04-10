@@ -45,7 +45,8 @@ double	deg_to_rad(double degree)
 
 int	get_text_x_pos(t_game *game, t_ray curr_ray)
 {
-	return ((int) floor(game->tex_width * 2 \
-		* (curr_ray.ray_x + curr_ray.ray_y)) \
-		% game->tex_width);
+	double	ray;
+
+	ray = curr_ray.ray_x + curr_ray.ray_y;
+	return ((int)floor(game->tex_width * 2 * ray) % game->tex_width);
 }
