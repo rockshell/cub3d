@@ -73,6 +73,7 @@ typedef struct s_game
 	char		start_dir;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
+	mlx_image_t *current_frame;
 	mlx_image_t	*prev_frame;
 	mlx_image_t	*image[4];
 	t_walls		*walls;

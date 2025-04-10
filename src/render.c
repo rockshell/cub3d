@@ -12,58 +12,52 @@
 
 #include "cub3d.h"
 
-
-uint32_t get_pixel_color(mlx_image_t *wall_image, double distance, int x, int y)
+uint32_t	get_pixel_color(mlx_image_t *wall_image, int x, int y)
 {
-	int index = 0;
-	uint32_t red = 0x00;
-	uint32_t green = 0x00;
-	uint32_t blue = 0x00;
-	uint32_t alpha = 0x00;
-	uint32_t color;
-	
-	int width = wall_image->width;
-	double k_depth = 1.0 / (1.0 + distance * 0.05);
-	
-	index = (y * width + x) * 4 ;
-	red = ((uint8_t) (wall_image->pixels[index] * k_depth)) << 24;
-	green = ((uint8_t) (wall_image->pixels[index + 1] * k_depth)) << 16;
-	blue = ((uint8_t) (wall_image->pixels[index + 2] * k_depth)) << 8;
+	int			index;
+	uint32_t	red;
+	uint32_t	green;
+	uint32_t	blue;
+	uint32_t	alpha;
+
+	index = (y * wall_image->width + x) * 4 ;
+	red = ((uint8_t)(wall_image->pixels[index])) << 24;
+	green = ((uint8_t)(wall_image->pixels[index + 1])) << 16;
+	blue = ((uint8_t)(wall_image->pixels[index + 2])) << 8;
 	alpha = wall_image->pixels[index + 3];
-	color = red | green | blue | alpha;
-	return (color);
+	return (red | green | blue | alpha);
 }
 
-void	put_column(t_game *game, mlx_image_t *frame, int width, mlx_image_t *wall_image)
+void	put_pixel(t_game *game, int height, int width, mlx_image_t *w_image)
 {
-	int height;
-	int wall_start;
-	int wall_end;
-	int tex_pos_x;
-	int tex_pos_y;
-	double distance;
-	double wall_height;
-	uint32_t color;
+	int			w_start;
+	int			tex_pos_x;
+	int			tex_pos_y;
+	double		w_height;
+	uint32_t	color;
 
-	distance = game->walls->walls_arr[width];
 	tex_pos_x = game->tex_pos_x_arr[width];
-	wall_height = floor(HALF_HEIGHT / distance);
-	wall_start = HALF_HEIGHT - wall_height / 2;
-	wall_end = wall_start + wall_height;
+	w_height = floor(HALF_HEIGHT / game->walls->walls_arr[width]);
+	w_start = HALF_HEIGHT - w_height / 2;
+	if (height < w_start)
+		mlx_put_pixel(game->current_frame, width, height, game->ceil_color);
+	else if (height > w_start + w_height)
+		mlx_put_pixel(game->current_frame, width, height, game->floor_color);
+	else
+	{
+		tex_pos_y = (int)((height - w_start - 1) / w_height * w_image->height);
+		color = get_pixel_color(w_image, tex_pos_x, tex_pos_y);
+		mlx_put_pixel(game->current_frame, width, height, color);
+	}
+}
+
+void	put_column(t_game *game, int width, mlx_image_t *wall_image)
+{
+	int	height;
+
 	height = -1;
 	while (++height < WIN_HEIGHT)
-	{
-		if (height < wall_start)
-			mlx_put_pixel(frame, width, height, game->ceil_color);
-		else if (height > wall_end)
-			mlx_put_pixel(frame, width, height, game->floor_color);
-		else if (height >= wall_start && height <= wall_end)
-		{
-			tex_pos_y = (int) ((height - wall_start - 1) / wall_height * wall_image->height);
-			color = get_pixel_color(wall_image, distance, tex_pos_x, tex_pos_y);
-			mlx_put_pixel(frame, width, height, color);
-		}
-	}
+		put_pixel(game, height, width, wall_image);
 }
 
 mlx_image_t	*render_frame(t_game *game)
@@ -74,6 +68,7 @@ mlx_image_t	*render_frame(t_game *game)
 
 	i = -1;
 	frame = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	game->current_frame = frame;
 	while (++i < WIN_WIDTH)
 	{
 		if (game->walls->side[i] == 0)
@@ -84,11 +79,10 @@ mlx_image_t	*render_frame(t_game *game)
 			wall_image = game->image[EA];
 		else
 			wall_image = game->image[WE];
-		put_column(game, frame, i, wall_image);
+		put_column(game, i, wall_image);
 	}
 	return (frame);
 }
-
 
 void	render_game(void *param)
 {
@@ -98,7 +92,7 @@ void	render_game(void *param)
 	game = (t_game *)param;
 	ray_casting(game);
 	current_frame = render_frame(game);
-	mlx_image_to_window(game->mlx, current_frame, 0, 0);
+	mlx_image_to_window(game->mlx, game->current_frame, 0, 0);
 	if (game->prev_frame)
 		mlx_delete_image(game->mlx, game->prev_frame);
 	game->prev_frame = current_frame;
