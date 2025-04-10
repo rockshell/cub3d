@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/10 12:57:24 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:09:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,13 @@ enum	e_side
 	WE
 };
 
-typedef struct s_rgb
+typedef struct s_rgba
 {
-	unsigned int	r;
-	unsigned int	g;
-	unsigned int	b;
-}	t_rgb;
+	uint32_t	r;
+	uint32_t	g;
+	uint32_t	b;
+	uint32_t	a;
+}	t_rgba;
 
 typedef struct s_ray
 {
@@ -82,13 +83,6 @@ typedef struct s_game
 	int32_t		cursr_last_y;
 }	t_game;
 
-typedef struct s_error
-{
-	char	*line;
-	t_game	*game;
-	int		fd;
-}	t_error;
-
 //init.c
 int		init_struct(t_game *game);
 void	init_assets(t_game *game);
@@ -113,11 +107,11 @@ int		get_text_x_pos(t_game *game, t_ray curr_ray);
 
 // cleanup.c
 void	free_game(t_game *game);
-void	free_exit(t_error error_s);
+void	free_exit(t_game *game, char *line, int fd);
 
 //error.c
 int		check_args_get_fd(int argc, char *filepath);
-void	error_exit(t_error error_s, int error_code);
+void	error_exit(t_game *game, char *line, int fd, int error_code);
 void	ft_mlxerror(t_game *game);
 
 //rays.c

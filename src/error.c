@@ -6,13 +6,13 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:53:38 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/03/26 19:51:56 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:46:37 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	error_exit(t_error error_s, int error_code)
+void	error_exit(t_game *game, char *line, int fd, int error_code)
 {
 	if (error_code == 0)
 		printf("Error\nAllocation failed\n");
@@ -34,7 +34,7 @@ void	error_exit(t_error error_s, int error_code)
 		printf("Error\nFile corrupted or does not exist\n");
 	else if (error_code == 9)
 		printf("Error\nBad player\n");
-	free_exit(error_s);
+	free_exit(game, line, fd);
 }
 
 int	check_args_get_fd(int argc, char *filepath)

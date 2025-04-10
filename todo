@@ -23,3 +23,5 @@ cub3d.h +
 4. VALGRIND
 
 5. Callback function used to handle window resizing.
+
+6. slipping along walls

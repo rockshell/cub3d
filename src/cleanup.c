@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 22:02:45 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:44:51 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,15 @@ void	free_game(t_game *game)
 	free(game);
 }
 
-void	free_exit(t_error error_s)
+void	free_exit(t_game *game, char *line, int fd)
 {
-	if (error_s.line)
+	if (line)
 	{
-		free(error_s.line);
-		error_s.line = NULL;
+		free(line);
+		line = NULL;
 	}
-	free_game(error_s.game);
-	if (error_s.fd >= 0)
-		close(error_s.fd);
+	free_game(game);
+	if (fd >= 0)
+		close(fd);
 	exit(EXIT_FAILURE);
 }

@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 22:23:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:11:38 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,18 @@
 
 uint32_t get_pixel_color(mlx_image_t *wall_image, double distance, int x, int y)
 {
-	int index = 0;
-	uint32_t red = 0x00;
-	uint32_t green = 0x00;
-	uint32_t blue = 0x00;
-	uint32_t alpha = 0x00;
-	uint32_t color;
-	
-	int width = wall_image->width;
-	double k_depth = 1.0 / (1.0 + distance * 0.05);
-	
-	index = (y * width + x) * 4 ;
-	red = ((uint8_t) (wall_image->pixels[index] * k_depth)) << 24;
-	green = ((uint8_t) (wall_image->pixels[index + 1] * k_depth)) << 16;
-	blue = ((uint8_t) (wall_image->pixels[index + 2] * k_depth)) << 8;
-	alpha = wall_image->pixels[index + 3];
-	color = red | green | blue | alpha;
+	int			index;
+	t_rgba		rgba;
+	uint32_t	color;
+	double		k_depth;
+
+	k_depth = 1.0 / (1.0 + distance * 0.05);
+	index = (y *  wall_image->width + x) * 4 ;
+	rgba.r = ((uint32_t) (wall_image->pixels[index] * k_depth)) << 24;
+	rgba.g = ((uint32_t) (wall_image->pixels[index + 1] * k_depth)) << 16;
+	rgba.b = ((uint32_t) (wall_image->pixels[index + 2] * k_depth)) << 8;
+	rgba.a = wall_image->pixels[index + 3];
+	color = rgba.r | rgba.g | rgba.b | rgba.a ;
 	return (color);
 }
 
@@ -88,7 +84,6 @@ mlx_image_t	*render_frame(t_game *game)
 	}
 	return (frame);
 }
-
 
 void	render_game(void *param)
 {
