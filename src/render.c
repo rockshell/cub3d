@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 17:01:08 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/10 19:49:23 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 19:53:53 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ uint32_t	get_pixel_color(mlx_image_t *wall_image, double dist, int x, int y)
 {
 	int			index;
 	t_rgba		rgba;
-	uint32_t	color;
 	double		k_depth;
 
 	k_depth = 1.0 / (1.0 + dist * 0.05);
@@ -25,8 +24,7 @@ uint32_t	get_pixel_color(mlx_image_t *wall_image, double dist, int x, int y)
 	rgba.g = ((uint32_t) (wall_image->pixels[index + 1] * k_depth)) << 16;
 	rgba.b = ((uint32_t) (wall_image->pixels[index + 2] * k_depth)) << 8;
 	rgba.a = wall_image->pixels[index + 3];
-	color = rgba.r | rgba.g | rgba.b | rgba.a ;
-	return (color);
+	return (rgba.r | rgba.g | rgba.b | rgba.a);
 }
 
 void	put_pixel(t_game *game, int height, int width, mlx_image_t *w_image)
@@ -35,7 +33,10 @@ void	put_pixel(t_game *game, int height, int width, mlx_image_t *w_image)
 	int			tex_pos_x;
 	int			tex_pos_y;
 	double		w_height;
-
+	double		dist;
+	uint32_t	color;
+	
+	dist = game->walls->walls_arr[width];
 	tex_pos_x = game->tex_pos_x_arr[width];
 	w_height = floor(HALF_HEIGHT / game->walls->walls_arr[width]);
 	w_start = HALF_HEIGHT - w_height / 2;
@@ -46,8 +47,8 @@ void	put_pixel(t_game *game, int height, int width, mlx_image_t *w_image)
 	else
 	{
 		tex_pos_y = (int)((height - w_start - 1) / w_height * w_image->height);
-		mlx_put_pixel(game->current_frame, width, height, \
-			get_pixel_color(w_image, tex_pos_x, game->walls->walls_arr[width], tex_pos_y));
+		color = get_pixel_color(w_image, dist, tex_pos_x, tex_pos_y);
+		mlx_put_pixel(game->current_frame, width, height, color);
 	}
 }
 
