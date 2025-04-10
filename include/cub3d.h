@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 22:25:29 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:57:24 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	render_game(void *param);
 
 // controls.c
 void	key_hooks(mlx_key_data_t keydata, void *param);
-void	cursor_hook(double xpos, double ypos, void* param);
+void	cursor_hook(double xpos, double ypos, void *param);
 
 // utils.c
 int		cube_atoi(const char *nptr);
