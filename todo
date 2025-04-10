@@ -1,9 +1,10 @@
 1. NORM
 
-controls.c
 parsing.c
-render.c
 
+get_color.c +
+controls.c +
+render.c +
 cleanup.c +
 error.c +
 init.c +

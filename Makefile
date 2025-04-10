@@ -13,8 +13,10 @@ LIBMLX		:=	 MLX42/build/libmlx42.a
 LIBS		:=	$(LIBFT) $(LIBMLX) -ldl -lglfw -lm -lpthread
 
 SRCS_DIR	:=	./src/
-SRCS 		:=	main.c parsing.c cleanup.c utils.c error.c \
-				rays.c render.c controls.c init.c player.c
+SRCS 		:=	main.c init.c parsing.c get_path.c get_color.c get_check_map.c \
+				player.c render.c rays.c controls.c controls2.c \
+				utils.c cleanup.c error.c
+				
 
 SRCS		:=	$(addprefix $(SRCS_DIR), $(SRCS))
 OBJS		:=	${SRCS:.c=.o}

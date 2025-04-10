@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/10 16:09:38 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 01:36:21 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,15 @@ typedef struct s_walls
 	int		*side;
 }	t_walls;
 
+typedef struct s_tex_pos
+{
+	int	x;
+	int	y;
+}	t_tex_pos;
+
 typedef struct s_game
 {
-	char		**texture_path_nsew;
+	char		**tex_path;
 	uint32_t	ceil_color;
 	uint32_t	floor_color;
 	int			map_width;
@@ -75,7 +81,7 @@ typedef struct s_game
 	char		start_dir;
 	mlx_t		*mlx;
 	mlx_image_t	*img;
-	mlx_image_t *current_frame;
+	mlx_image_t	*current_frame;
 	mlx_image_t	*prev_frame;
 	mlx_image_t	*image[4];
 	t_walls		*walls;
@@ -85,41 +91,61 @@ typedef struct s_game
 	int32_t		cursr_last_y;
 }	t_game;
 
+typedef struct s_err_group
+{
+	t_game	*game;
+	char	*line;
+	int		fd;
+}	t_err_group;
+
 //init.c
-int		init_struct(t_game *game);
-void	init_assets(t_game *game);
+int			init_struct(t_game *game);
+void		init_assets(t_game *game);
 
 // player.c
-void	init_player(t_game *game);
+void		init_player(t_game *game);
 
-//readmap
-int		read_map(int argc, char *filepath, t_game *game);
+//parsing.c
+int			read_map(int argc, char *filepath, t_game *game);
+
+// get_path.c
+void		get_texture(t_err_group *group, int *depth, int *unique);
+
+// get_color.c
+uint32_t	get_color(t_game *game, char *line, int fd);
+
+// get_map.c
+void		get_map_and_width(t_game *game, int fd, int depth);
+void		check_open_walls(t_game *game);
 
 //render.c
-void	render_game(void *param);
+void		render_game(void *param);
 
 // controls.c
-void	key_hooks(mlx_key_data_t keydata, void *param);
-void	cursor_hook(double xpos, double ypos, void *param);
-bool	k_hold(mlx_key_data_t keydata);
-void	move_ray(double *ray_x, double *ray_y, enum keys key, t_game *game);
+void		key_hooks(mlx_key_data_t keydata, void *param);
+void		cursor_hook(double xpos, double ypos, void *param);
+
+// controls2.c
+bool		k_hold(mlx_key_data_t keydata);
+void		move_ray(double *ray_x, double *ray_y, enum keys key, t_game *game);
 
 // utils.c
-int		cube_atoi(const char *nptr);
-double	deg_to_rad(double degree);
-int		get_text_x_pos(t_game *game, t_ray curr_ray);
+int			cube_atoi(const char *nptr);
+double		deg_to_rad(double degree);
+int			get_text_x_pos(t_game *game, t_ray curr_ray);
+char		*trim_whitespaces(char *line, const char *charset);
 
 // cleanup.c
-void	free_game(t_game *game);
-void	free_exit(t_game *game, char *line, int fd);
+void		free_game(t_game *game);
+void		free_exit(t_game *game, char *line, int fd);
 
 //error.c
-int		check_args_get_fd(int argc, char *filepath);
-void	error_exit(t_game *game, char *line, int fd, int error_code);
-void	ft_mlxerror(t_game *game);
+int			check_args_get_fd(int argc, char *filepath);
+void		error_exit(t_game *game, char *line, int fd, int error_code);
+void		ft_mlxerror(t_game *game);
 
 //rays.c
-void	ray_casting(t_game *game);
-int		hit_the_wall(t_ray ray, t_game *game);
+void		ray_casting(t_game *game);
+int			hit_the_wall(t_ray ray, t_game *game);
 
 #endif
