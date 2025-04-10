@@ -50,3 +50,34 @@ int	get_text_x_pos(t_game *game, t_ray curr_ray)
 	ray = curr_ray.ray_x + curr_ray.ray_y;
 	return ((int)floor(game->tex_width * 2 * ray) % game->tex_width);
 }
+
+bool	k_hold(mlx_key_data_t keydata)
+{
+	if ((keydata.action == MLX_PRESS) || (keydata.action == MLX_REPEAT))
+		return (true);
+	return (false);
+}
+
+void	move_ray(double *ray_x, double *ray_y, enum keys key, t_game *game)
+{
+	if (key == 87)
+	{
+		*ray_x += cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+		*ray_y += sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+	}
+	else if (key == 83)
+	{
+		*ray_x -= cos(deg_to_rad(game->plr_angle)) / (PREC / 100);
+		*ray_y -= sin(deg_to_rad(game->plr_angle)) / (PREC / 100);
+	}
+	else if (key == 65)
+	{
+		*ray_x += cos(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+		*ray_y += sin(deg_to_rad(game->plr_angle - 90)) / (PREC / 100);
+	}
+	else if (key == 68)
+	{
+		*ray_x += cos(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+		*ray_y += sin(deg_to_rad(game->plr_angle + 90)) / (PREC / 100);
+	}
+}

@@ -29,6 +29,7 @@
 # define FOV			60
 # define HALF_FOV		30
 # define PREC			1000
+# define TURN_RATIO		1
 
 enum	e_side
 {
@@ -100,6 +101,8 @@ void	render_game(void *param);
 // controls.c
 void	key_hooks(mlx_key_data_t keydata, void *param);
 void	cursor_hook(double xpos, double ypos, void *param);
+bool	k_hold(mlx_key_data_t keydata);
+void	move_ray(double *ray_x, double *ray_y, enum keys key, t_game *game);
 
 // utils.c
 int		cube_atoi(const char *nptr);
