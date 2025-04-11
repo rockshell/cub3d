@@ -3,8 +3,8 @@ SO      ./assets/south.png
 EA      ./assets/east.png
 WE      ./assets/west.png
 
-C       87,170,230
-C       145,132,62
+C       211,170,130
+F       191,22,22
 
 111111111111111
 100000000000001
