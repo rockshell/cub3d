@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 01:36:21 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:56:24 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # include "libft.h"
 # include "../MLX42/include/MLX42/MLX42.h"
 
-# define WIN_WIDTH		1280
-# define WIN_HEIGHT		720
-# define HALF_HEIGHT	360
+# define WIN_WIDTH		3840
+# define WIN_HEIGHT		2160
+# define HALF_HEIGHT	1080
 # define FOV			60
 # define HALF_FOV		30
 # define PREC			1000
@@ -38,6 +38,17 @@ enum	e_side
 	EA,
 	WE
 };
+
+typedef struct s_unique
+{
+	int	n;
+	int	s;
+	int	e;
+	int	w;
+	int	c;
+	int	f;
+	int	all;
+}	t_unique;
 
 typedef struct s_rgba
 {
@@ -109,7 +120,7 @@ void		init_player(t_game *game);
 int			read_map(int argc, char *filepath, t_game *game);
 
 // get_path.c
-void		get_texture(t_err_group *group, int *depth, int *unique);
+bool		get_texture(t_err_group *group, int *depth, t_unique *unique);
 
 // get_color.c
 uint32_t	get_color(t_game *game, char *line, int fd);

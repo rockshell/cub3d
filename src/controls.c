@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 19:55:51 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 22:24:41 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:57:22 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,14 @@
 
 static void	turn_controls(t_game *game, mlx_key_data_t keydata)
 {
-	int	turn_ratio;
-
-	turn_ratio = 2;
 	if (keydata.key == MLX_KEY_LEFT && k_hold(keydata))
 	{
-		game->plr_angle -= turn_ratio;
-		if (game->plr_angle == -turn_ratio)
-			game->plr_angle = 360 - turn_ratio;
+		game->plr_angle -= TURN_RATIO;
+		if (game->plr_angle == -TURN_RATIO)
+			game->plr_angle = 360 - TURN_RATIO;
 	}
 	else if (keydata.key == MLX_KEY_RIGHT && k_hold(keydata))
-		game->plr_angle = (game->plr_angle % 360) + turn_ratio;
+		game->plr_angle = (game->plr_angle % 360) + TURN_RATIO;
 }
 
 int	t_pos(t_game *game, mlx_key_data_t keydata)

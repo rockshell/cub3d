@@ -6,36 +6,62 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 01:34:52 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:55:09 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	process_map(t_err_group *grp, int *depth, int *unique, int *height)
+bool	check_unique(t_unique *unique, int height)
 {
-	get_texture(grp, depth, unique);
-	if (ft_strncmp(grp->line, "F", 1) == 0)
+	if (unique->n == 1)
+		unique->all++;
+	if (unique->s == 1)
+		unique->all++;
+	if (unique->e == 1)
+		unique->all++;
+	if (unique->w == 1)
+		unique->all++;
+	if (unique->c == 1)
+		unique->all++;
+	if (unique->f == 1)
+		unique->all++;
+	if (height)
+		unique->all++;
+	if (unique->all != 7)
+		return (false);
+	return (true);
+}
+
+void	process_map(t_err_group *grp, int *depth, t_unique *unique, int *height)
+{
+	if (get_texture(grp, depth, unique))
+		return ; 
+	if (ft_strncmp(grp->line, "F", 1) == 0 && unique->f == 0)
 	{
 		grp->game->floor_color = get_color(grp->game, grp->line, grp->fd);
 		*depth += 1;
-		*unique += 1;
+		unique->f += 1;
+		return ;
 	}
-	else if (ft_strncmp(grp->line, "C", 1) == 0)
+	else if (ft_strncmp(grp->line, "C", 1) == 0 && unique->c == 0)
 	{
 		grp->game->ceil_color = get_color(grp->game, grp->line, grp->fd);
 		*depth += 1;
-		*unique += 1;
+		unique->c += 1;
+		return ;
 	}
-	if (ft_strncmp(grp->line, "0", 1) == 0 && *unique == 6)
+	if (ft_strncmp(grp->line, "0", 1) == 0)
 		error_exit(grp->game, grp->line, grp->fd, 3);
-	else if (ft_strncmp(grp->line, "1", 1) == 0 && *unique == 6)
+	else if (ft_strncmp(grp->line, "1", 1) == 0)
 	{
 		if (ft_strendswith(grp->line, "0"))
 			error_exit(grp->game, grp->line, grp->fd, 3);
 		*depth += 1;
 		*height += 1;
+		return ;
 	}
+	error_exit(grp->game, grp->line, grp->fd, 4);
 }
 
 int	process_line(t_err_group *group, int *depth)
@@ -55,14 +81,12 @@ int	process_line(t_err_group *group, int *depth)
 	return (0);
 }
 
-void	parse_map_and_height(t_game *game, int fd, int *depth)
+void	parse_map_and_height(t_game *game, int fd, int *depth, t_unique *unique)
 {
 	t_err_group		group;
-	int				unique;
 	int				height;
 	int				proc_line;
 
-	unique = 0;
 	height = 0;
 	group.game = game;
 	group.fd = fd;
@@ -73,26 +97,32 @@ void	parse_map_and_height(t_game *game, int fd, int *depth)
 			break ;
 		else if (proc_line == 2)
 			continue ;
-		process_map(&group, depth, &unique, &height);
+		process_map(&group, depth, unique, &height);
 		free(group.line);
 	}
-	if (height)
-		unique++;
-	if (unique != 7)
+	if (!check_unique(unique, height))
 		error_exit(game, group.line, fd, 4);
 	game->map_height = height;
 }
 
 int	read_map(int argc, char *filepath, t_game *game)
 {
-	int		fd;
-	int		depth;
+	int			fd;
+	int			depth;
+	t_unique	unique;
 
+	unique.n = 0;
+	unique.s = 0;
+	unique.e = 0;
+	unique.w = 0;
+	unique.c = 0;
+	unique.f = 0;
+	unique.all = 0;
 	fd = check_args_get_fd(argc, filepath);
 	if (fd < 0)
 		return (-1);
 	depth = 0;
-	parse_map_and_height(game, fd, &depth);
+	parse_map_and_height(game, fd, &depth, &unique);
 	close(fd);
 	game->map = malloc(sizeof(char *) * game->map_height);
 	fd = open(filepath, O_RDONLY);

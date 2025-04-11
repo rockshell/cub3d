@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 23:53:38 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/10 22:31:08 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 16:19:25 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	error_exit(t_game *game, char *line, int fd, int error_code)
 	else if (error_code == 5)
 		printf("Error\nInvalid map format: char not from set \" NSWE10\"\n");
 	else if (error_code == 6)
-		printf("Error\nInvalid map format\n");
+		printf("Error\nInvalid map format: char not from set \"NSWEFC10\"\n");
 	else if (error_code == 7)
 		printf("Error\nInvalid color value\n");
 	else if (error_code == 8)
