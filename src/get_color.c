@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:02:02 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 14:07:06 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:18:14 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,21 @@ int	get_rgb_values(t_rgba *rgba, char *sub_seq, int sub_count)
 	return (0);
 }
 
+void	init_rgba(t_rgba *rgba)
+{
+	rgba->r = 0x00;
+	rgba->g = 0x00;
+	rgba->b = 0x00;
+	rgba->a = 0x00;
+}
+
+void	go_over_color_palette(int *sub_len, char *sub_seq, char *rgb_seq)
+{
+	sub_seq[*sub_len] = *rgb_seq;
+	(*sub_len)++;
+	rgb_seq++;
+}
+
 static t_rgba	parse_color(char *rgb_seq, t_game *game, char *line, int fd)
 {
 	t_rgba	rgba;
@@ -59,10 +74,7 @@ static t_rgba	parse_color(char *rgb_seq, t_game *game, char *line, int fd)
 	int		sub_count;
 	char	*sub_seq;
 
-	rgba.r = 0x00;
-	rgba.g = 0x00;
-	rgba.b = 0x00;
-	rgba.a = 0x00;
+	init_rgba(&rgba);
 	sub_count = -1;
 	sub_seq = malloc(sizeof(char) * ft_strlen(rgb_seq));
 	while (*rgb_seq)
@@ -70,6 +82,7 @@ static t_rgba	parse_color(char *rgb_seq, t_game *game, char *line, int fd)
 		sub_len = 0;
 		while (*rgb_seq && ft_isdigit(*rgb_seq))
 		{
+			// go_over_color_palette(&sub_len, sub_seq, rgb_seq);
 			sub_seq[sub_len] = *rgb_seq;
 			sub_len++;
 			rgb_seq++;
