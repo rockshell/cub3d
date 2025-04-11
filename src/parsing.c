@@ -6,51 +6,37 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 16:55:09 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:18:10 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-bool	check_unique(t_unique *unique, int height)
+bool	parse_color(t_err_group *grp, int *depth, t_unique *unique)
 {
-	if (unique->n == 1)
-		unique->all++;
-	if (unique->s == 1)
-		unique->all++;
-	if (unique->e == 1)
-		unique->all++;
-	if (unique->w == 1)
-		unique->all++;
-	if (unique->c == 1)
-		unique->all++;
-	if (unique->f == 1)
-		unique->all++;
-	if (height)
-		unique->all++;
-	if (unique->all != 7)
-		return (false);
-	return (true);
-}
-
-void	process_map(t_err_group *grp, int *depth, t_unique *unique, int *height)
-{
-	if (get_texture(grp, depth, unique))
-		return ; 
 	if (ft_strncmp(grp->line, "F", 1) == 0 && unique->f == 0)
 	{
 		grp->game->floor_color = get_color(grp->game, grp->line, grp->fd);
 		*depth += 1;
 		unique->f += 1;
-		return ;
+		return (true);
 	}
 	else if (ft_strncmp(grp->line, "C", 1) == 0 && unique->c == 0)
 	{
 		grp->game->ceil_color = get_color(grp->game, grp->line, grp->fd);
 		*depth += 1;
 		unique->c += 1;
-		return ;
+		return (true);
 	}
+	return (false);
+}
+
+void	process_map(t_err_group *grp, int *depth, t_unique *unique, int *height)
+{
+	if (get_texture(grp, depth, unique))
+		return ;
+	if (parse_color(grp, depth, unique))
+		return ;
 	if (ft_strncmp(grp->line, "0", 1) == 0)
 		error_exit(grp->game, grp->line, grp->fd, 3);
 	else if (ft_strncmp(grp->line, "1", 1) == 0)

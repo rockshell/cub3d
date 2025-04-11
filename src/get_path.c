@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 01:13:27 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 16:45:05 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:03:56 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ bool	get_texture(t_err_group *group, int *depth, t_unique *unique)
 		process_tex_path(WE, depth, group);
 		unique->w += 1;
 	}
-	else return (false);
+	else
+		return (false);
 	return (true);
 }

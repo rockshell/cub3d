@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 16:56:24 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:09:59 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ int			cube_atoi(const char *nptr);
 double		deg_to_rad(double degree);
 int			get_text_x_pos(t_game *game, t_ray curr_ray);
 char		*trim_whitespaces(char *line, const char *charset);
+bool		check_unique(t_unique *unique, int height);
 
 // cleanup.c
 void		free_game(t_game *game);

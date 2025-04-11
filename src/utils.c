@@ -6,7 +6,7 @@
 /*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 19:39:33 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 01:32:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:09:45 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,25 @@ char	*trim_whitespaces(char *line, const char *charset)
 	free(tmp_line);
 	tmp_line = NULL;
 	return (line);
+}
+
+bool	check_unique(t_unique *unique, int height)
+{
+	if (unique->n == 1)
+		unique->all++;
+	if (unique->s == 1)
+		unique->all++;
+	if (unique->e == 1)
+		unique->all++;
+	if (unique->w == 1)
+		unique->all++;
+	if (unique->c == 1)
+		unique->all++;
+	if (unique->f == 1)
+		unique->all++;
+	if (height)
+		unique->all++;
+	if (unique->all != 7)
+		return (false);
+	return (true);
 }
