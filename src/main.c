@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/09 22:28:20 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/11 18:10:54 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+void	init_game(t_game *game)
+{
+	void	*cursor;
+	
+	mlx_set_setting(MLX_FULLSCREEN, true);
+	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "CUB3D", true);
+	if (!game->mlx)
+		ft_mlxerror(game);
+	cursor = mlx_create_std_cursor(MLX_CURSOR_CROSSHAIR);
+	mlx_set_cursor(game->mlx, cursor);
+	init_assets(game);
+	init_player(game);
+	game->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
+		ft_mlxerror(game);
+}
 
 int	main(int argc, char *argv[])
 {
@@ -23,14 +39,7 @@ int	main(int argc, char *argv[])
 		free_game(game);
 		return (EXIT_FAILURE);
 	}
-	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "CUB3D", true);
-	if (!game->mlx)
-		ft_mlxerror(game);
-	init_assets(game);
-	init_player(game);
-	game->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
-	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
-		ft_mlxerror(game);
+	init_game(game);
 	mlx_cursor_hook(game->mlx, cursor_hook, game);
 	mlx_key_hook(game->mlx, key_hooks, game);
 	mlx_loop_hook(game->mlx, render_game, game);
