@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:12:32 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 18:10:54 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/04/11 21:58:01 by mmaksimo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
 void	init_game(t_game *game)
 {
 	void	*cursor;
-	
-	mlx_set_setting(MLX_FULLSCREEN, true);
+
+	init_player(game);
 	game->mlx = mlx_init(WIN_WIDTH, WIN_HEIGHT, "CUB3D", true);
 	if (!game->mlx)
 		ft_mlxerror(game);
 	cursor = mlx_create_std_cursor(MLX_CURSOR_CROSSHAIR);
 	mlx_set_cursor(game->mlx, cursor);
 	init_assets(game);
-	init_player(game);
 	game->img = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
 	if (!game->img || (mlx_image_to_window(game->mlx, game->img, 0, 0) < 0))
 		ft_mlxerror(game);

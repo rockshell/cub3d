@@ -1,3 +1,11 @@
-5. Callback function used to handle window resizing.
+1. Fix maps height incrementing in parsing after map endif
 
-6. slipping along walls
+maybe use?
+
+/*
+int	process_map(t_err_group *grp, int *depth, t_unique *unique, int *height)
+{
+	bool	is_map;
+*/
+
+2. Test on diff maps and textures
