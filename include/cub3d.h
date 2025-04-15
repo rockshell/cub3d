@@ -6,7 +6,7 @@
 /*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/05 19:15:15 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/15 14:15:44 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:29:55 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ bool		get_texture(t_err_group *group, int *depth, t_unique *unique);
 uint32_t	get_color(t_game *game, char *line, int fd);
 
 // get_map.c
-void		get_map_and_width(t_game *game, int fd, int depth);
+void		get_map(t_game *game, int fd, int depth);
 void		check_open_walls(t_game *game);
 
 //render.c

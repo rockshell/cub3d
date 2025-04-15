@@ -6,7 +6,7 @@
 /*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/15 14:45:41 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:40:37 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	process_line(t_err_group *group, int *depth, int height)
 	{
 		free(group->line);
 		return (1);
-	}	
+	}
 	if (*group->line == '\0')
 	{
 		(*depth)++;
@@ -114,13 +114,11 @@ int	read_map(int argc, char *filepath, t_game *game)
 	depth = 0;
 	parse_map_and_height(game, fd, &depth, &unique);
 	close(fd);
-	printf("depth %d\n", depth);
-	printf("height %d\n", game->map_height);
-	game->map = malloc(sizeof(char *) * game->map_height);
+	game->map = ft_calloc(game->map_height, sizeof(char *));
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
 		error_exit(game, NULL, fd, 8);
-	get_map_and_width(game, fd, depth);
+	get_map(game, fd, depth);
 	close(fd);
 	check_open_walls(game);
 	return (0);

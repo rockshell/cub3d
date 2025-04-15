@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 22:02:02 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/11 17:51:34 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/15 18:41:38 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,11 @@ static void	check_color_format(char *rgb_seq, t_game *game, char *line, int fd)
 	comma_count = 0;
 	while (rgb_seq[i])
 	{
+		if (rgb_seq[i] == ' ' || rgb_seq[i] == '\t')
+		{
+			i++;
+			continue ;
+		}
 		if ((!ft_isdigit(rgb_seq[i]) && rgb_seq[i] != ',') || rgb_seq[0] == ','
 			|| (rgb_seq[i] == ',' && !rgb_seq[i + 1])
 			|| (rgb_seq[i] == ',' && rgb_seq[i + 1] == ','))

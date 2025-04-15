@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 13:42:06 by arch              #+#    #+#             */
-/*   Updated: 2025/04/10 23:46:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:22:16 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	init_struct(t_game *game)
 	game->walls->side = malloc(sizeof(int) * WIN_WIDTH);
 	game->walls->walls_arr = malloc(sizeof(double) * WIN_WIDTH);
 	game->tex_pos_x_arr = malloc(sizeof(int) * WIN_WIDTH);
+	game->map_height = 0;
 	return (0);
 }
 

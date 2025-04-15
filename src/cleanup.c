@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mmaksimo <mmaksimo@student.42.fr>          +#+  +:+       +#+        */
+/*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:50:22 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/10 23:46:11 by mmaksimo         ###   ########.fr       */
+/*   Updated: 2025/04/15 15:18:19 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,18 @@ static void	free_map(t_game *game)
 {
 	int	i;
 
-	if (game->map)
+	i = 0;
+	while (i < game->map_height)
 	{
-		i = 0;
-		while (i < game->map_height)
+		if (game->map[i])
 		{
-			if (game->map[i])
-			{
-				free(game->map[i]);
-				game->map[i] = NULL;
-			}
-			i++;
+			free(game->map[i]);
+			game->map[i] = NULL;
 		}
-		free(game->map);
-		game->map = NULL;
+		i++;
 	}
+	free(game->map);
+	game->map = NULL;
 }
 
 void	free_game(t_game *game)
@@ -51,7 +48,8 @@ void	free_game(t_game *game)
 	}
 	free(game->tex_path);
 	game->tex_path = NULL;
-	free_map(game);
+	if (game->map)
+		free_map(game);
 	free(game->walls->side);
 	free(game->walls->walls_arr);
 	free(game->walls);
