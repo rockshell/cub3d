@@ -6,7 +6,7 @@
 /*   By: akulikov <akulikov@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 15:42:49 by mmaksimo          #+#    #+#             */
-/*   Updated: 2025/04/15 13:14:19 by akulikov         ###   ########.fr       */
+/*   Updated: 2025/04/15 14:45:41 by akulikov         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,23 @@ void	process_map(t_err_group *grp, int *depth, t_unique *unique, int *height)
 	{
 		if (ft_strendswith(grp->line, "0"))
 			error_exit(grp->game, grp->line, grp->fd, 3);
-		*depth += 1;
 		*height += 1;
 		return ;
 	}
 	error_exit(grp->game, grp->line, grp->fd, 4);
 }
 
-int	process_line(t_err_group *group, int *depth)
+int	process_line(t_err_group *group, int *depth, int height)
 {
 	group->line = get_next_line(group->fd);
 	if (!group->line)
 		return (1);
 	group->line = trim_whitespaces(group->line, " \t\n\r");
+	if (*group->line == '\0' && height > 0)
+	{
+		free(group->line);
+		return (1);
+	}	
 	if (*group->line == '\0')
 	{
 		(*depth)++;
@@ -78,7 +82,7 @@ void	parse_map_and_height(t_game *game, int fd, int *depth, t_unique *unique)
 	group.fd = fd;
 	while (1)
 	{
-		proc_line = process_line(&group, depth);
+		proc_line = process_line(&group, depth, height);
 		if (proc_line == 1)
 			break ;
 		else if (proc_line == 2)
@@ -110,6 +114,8 @@ int	read_map(int argc, char *filepath, t_game *game)
 	depth = 0;
 	parse_map_and_height(game, fd, &depth, &unique);
 	close(fd);
+	printf("depth %d\n", depth);
+	printf("height %d\n", game->map_height);
 	game->map = malloc(sizeof(char *) * game->map_height);
 	fd = open(filepath, O_RDONLY);
 	if (fd < 0)
